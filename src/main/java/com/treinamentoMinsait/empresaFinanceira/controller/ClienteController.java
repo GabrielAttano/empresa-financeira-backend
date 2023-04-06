@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -76,5 +77,19 @@ public class ClienteController {
 		}
 		
 		return new ResponseEntity<>("Cliente deletado com sucesso.", HttpStatus.OK);
+	}
+	//
+	@PutMapping("/{cpf}")
+	public ResponseEntity<?> alteraCliente(@Valid @RequestBody ClienteDTO clienteDTO, @PathVariable String cpf) {
+		Cliente clienteAlterado;
+		try {
+			clienteAlterado = this.clienteService.alteraCliente(cpf, clienteDTO);
+		} catch (ClienteNotFoundException e1) {
+			return new ResponseEntity<>(e1.getMessage(), HttpStatus.NOT_FOUND);
+		} catch (Exception e2) {
+			return new ResponseEntity<>(e2.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<>(new ClienteDTO(clienteAlterado), HttpStatus.OK);
 	}
 }
