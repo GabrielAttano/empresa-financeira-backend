@@ -33,34 +33,38 @@ public class ClienteController {
 	
 	@PostMapping
 	public ResponseEntity<?> cadastrarCliente(@Valid @RequestBody Cliente cliente) {
-		Cliente novoCliente = new Cliente();
+		Cliente clienteCadastrado;
+		
 		try {
-			novoCliente = clienteService.cadastrarCliente(cliente);
+			clienteCadastrado = clienteService.cadastrarCliente(cliente);
 		} catch (CPFAlreadyExistsException e1) { 
 			return new ResponseEntity<>(e1.getMessage(), HttpStatus.CONFLICT);
 		} catch (Exception e2) {
 			return new ResponseEntity<>(e2.getMessage(), HttpStatus.BAD_REQUEST);
 		}  
 		
-		ClienteDTO clienteDTO = new ClienteDTO(novoCliente);
-		return new ResponseEntity<>(clienteDTO, HttpStatus.OK);
+		return new ResponseEntity<>(new ClienteDTO(clienteCadastrado), HttpStatus.OK);
 	}
 	
 	@GetMapping
 	public List<ClienteDTO> recuperarClientes() {
-		return this.clienteService.recuperarClientes();
+		List<Cliente> clientesRecuperados;
+		clientesRecuperados = this.clienteService.recuperarClientes();
+		
+		return this.clienteService.transformarClientesEmDTO(clientesRecuperados);
 	}
 	
 	@GetMapping("/{cpf}")
 	public ResponseEntity<?> recuperarCliente(@PathVariable String cpf) {
-		ClienteDTO clienteDTO;
+		Cliente clienteRecuperado;
+		
 		try {
-			clienteDTO = this.clienteService.recuperarCliente(cpf);
+			clienteRecuperado = this.clienteService.recuperarCliente(cpf);
 		} catch (ClienteNotFoundException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 		
-		return new ResponseEntity<>(clienteDTO, HttpStatus.OK);
+		return new ResponseEntity<>(new ClienteDTO(clienteRecuperado), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{cpf}")

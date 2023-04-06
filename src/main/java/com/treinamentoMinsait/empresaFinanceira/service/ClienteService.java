@@ -34,6 +34,7 @@ public class ClienteService {
 		if (!this.cpfEhValido(CPF)) {
 			throw new InvalidCPFException(CPF);
 		}
+		
 		if (this.clienteRepository.existsByCPF(CPF)) {
 			throw new CPFAlreadyExistsException(CPF);
 		}
@@ -59,23 +60,28 @@ public class ClienteService {
 		return this.clienteRepository.save(cliente);
 	}
 	
-	public List<ClienteDTO> recuperarClientes() {
+	public List<Cliente> recuperarClientes() {
 		List<Cliente> clientes = this.clienteRepository.findAll();
+		
+		return clientes;
+	}
+	
+	public Cliente recuperarCliente(String cpf) throws ClienteNotFoundException {
+		Cliente cliente = this.clienteRepository.findByCPF(cpf)
+	            .orElseThrow(() -> new ClienteNotFoundException(cpf));
+
+	    return cliente;
+	}
+	
+	public List<ClienteDTO> transformarClientesEmDTO(List<Cliente> clientes) {
 		List<ClienteDTO> clientesDTO = new ArrayList<>();
+		
 		for (Cliente cliente : clientes) {
 			ClienteDTO clienteDTO = new ClienteDTO(cliente);
 			clientesDTO.add(clienteDTO);
 		}
+		
 		return clientesDTO;
-	}
-	
-	public ClienteDTO recuperarCliente(String cpf) throws ClienteNotFoundException {
-		Cliente cliente = this.clienteRepository.findByCPF(cpf)
-	            .orElseThrow(() -> new ClienteNotFoundException(cpf));
-
-	    // Transforma o objeto Cliente em ClienteDTO e retorna
-	    ClienteDTO clienteDTO = new ClienteDTO(cliente);
-	    return clienteDTO;
 	}
 	
 	public void deletaCliente(String cpf) throws ClienteNotFoundException {
