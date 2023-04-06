@@ -2,6 +2,8 @@ package com.treinamentoMinsait.empresaFinanceira.DTO;
 
 import java.math.BigDecimal;
 
+import javax.validation.constraints.Min;
+
 import com.treinamentoMinsait.empresaFinanceira.entity.Cliente;
 import com.treinamentoMinsait.empresaFinanceira.entity.Endereco;
 
@@ -13,8 +15,12 @@ public class ClienteDTO {
 	private Long id;
 	private String nome;
 	private String telefone;
-	private BigDecimal rendaMensal;
+	@Min(value=0) private BigDecimal rendaMensal;
 	private Endereco endereco;
+	
+	public ClienteDTO() {
+		
+	}
 	
 	public ClienteDTO(Cliente cliente) {
 		this.id = cliente.getId();
