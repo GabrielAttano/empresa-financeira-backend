@@ -29,7 +29,6 @@ public class ClienteService {
 	
 	
 	public Cliente cadastrarCliente(Cliente cliente) throws InvalidCPFException, InvalidTelefoneException, InvalidCEPException, CPFAlreadyExistsException {
-		System.out.println(cliente.getCPF());
 		
 		String CPF = cliente.getCPF();
 		if (!this.cpfEhValido(CPF)) {
