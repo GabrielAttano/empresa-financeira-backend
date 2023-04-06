@@ -3,6 +3,7 @@ package com.treinamentoMinsait.empresaFinanceira.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -88,6 +89,58 @@ public class ClienteService {
 		Cliente cliente = this.clienteRepository.findByCPF(cpf)
 				.orElseThrow(() -> new ClienteNotFoundException(cpf));
 		clienteRepository.delete(cliente);
+	}
+	
+	public Cliente alteraCliente(String cpf, ClienteDTO clienteDTO) throws ClienteNotFoundException, InvalidTelefoneException, InvalidCEPException {
+		Cliente cliente = this.clienteRepository.findByCPF(cpf)
+				.orElseThrow(() -> new ClienteNotFoundException(cpf));
+		
+		if (clienteDTO.getEndereco() != null) {
+			Endereco novoEndereco = clienteDTO.getEndereco();
+			this.alteraEndereco(cliente, novoEndereco);
+		}
+		
+		if (clienteDTO.getNome() != null) {
+			String novoNome = clienteDTO.getNome();
+			cliente.setNome(novoNome);
+		}
+		
+		if (clienteDTO.getRendaMensal() != null) {
+			BigDecimal novaRendaMensal = clienteDTO.getRendaMensal();
+			cliente.setRendaMensal(novaRendaMensal);
+		}
+		
+		if (clienteDTO.getTelefone() != null) {
+			String novoTelefone = clienteDTO.getTelefone();
+			if (!this.telefoneEhValido(novoTelefone)) {
+				throw new InvalidTelefoneException(novoTelefone);
+			}
+			cliente.setTelefone(novoTelefone);
+		}
+		
+		return this.clienteRepository.save(cliente);
+		
+	}
+	
+	private void alteraEndereco(Cliente cliente, Endereco novoEndereco) throws InvalidCEPException {
+		
+		String novoCep = novoEndereco.getCep();
+		if (novoCep != null) {				
+			if (!this.cepEhValido(novoCep)) {
+				throw new InvalidCEPException(novoCep);
+			}					
+			cliente.getEndereco().setCep(novoCep);
+		}
+		
+		int novoNumero = novoEndereco.getNumero();
+		if (novoNumero != 0) {
+			cliente.getEndereco().setNumero(novoNumero);				
+		}
+		
+		String novaRua = novoEndereco.getRua();
+		if (novaRua != null) {				
+			cliente.getEndereco().setRua(novaRua);
+		}
 	}
 	
 	private boolean cepEhValido(String cep) {
