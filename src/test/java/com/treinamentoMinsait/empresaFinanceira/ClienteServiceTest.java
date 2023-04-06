@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.treinamentoMinsait.empresaFinanceira.DTO.ClienteDTO;
 import com.treinamentoMinsait.empresaFinanceira.entity.Cliente;
 import com.treinamentoMinsait.empresaFinanceira.entity.Endereco;
 import com.treinamentoMinsait.empresaFinanceira.excecoes.CPFAlreadyExistsException;
@@ -124,12 +126,28 @@ public class ClienteServiceTest {
 			assertEquals(this.CPFvalido, clienteSalvo.getCPF());
 			assertEquals(this.rendaMensalValida, clienteSalvo.getRendaMensal());
 			assertEquals(this.telefoneValido, clienteSalvo.getTelefone());
-			
 			assertEquals(this.cepValido, clienteSalvo.getEndereco().getCep());
 			assertEquals(this.numeroValido, clienteSalvo.getEndereco().getNumero());
 			assertEquals(this.ruaValida, clienteSalvo.getEndereco().getRua());
 		} catch (Exception e) {
 			fail(String.format("Não deveria ter lançado a exceção '%s'", e.getMessage()));
 		}
+	}
+	
+	@Test
+	public void alterarClienteComCepInvalido() {
+		Cliente clienteMock = this.gerarClienteMock();
+		when(clienteRepositoryMock.findByCPF(CPFvalido)).thenReturn(Optional.of(clienteMock));
+		ClienteDTO clienteDtoMock = new ClienteDTO();
+		
+		String cepInvalido = "10000";
+		clienteDtoMock.setEndereco(clienteMock.getEndereco());
+		clienteDtoMock.getEndereco().setCep(cepInvalido);
+		
+		Throwable exception = assertThrows(InvalidCEPException.class, () -> {
+			this.clienteService.alteraCliente(this.CPFvalido, clienteDtoMock);
+		});
+		
+		assertEquals(String.format("CEP '%s' inválido. O CEP deve estar no formato 'XXXXX-XXX', onde cada X é um digito.", cepInvalido), exception.getMessage());
 	}
 }
