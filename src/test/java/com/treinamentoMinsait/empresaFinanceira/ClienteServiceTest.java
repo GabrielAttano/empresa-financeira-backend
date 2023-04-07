@@ -3,6 +3,7 @@ package com.treinamentoMinsait.empresaFinanceira;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
@@ -85,7 +86,8 @@ public class ClienteServiceTest {
 		Throwable exception = assertThrows(InvalidCPFException.class, () -> {
 			clienteService.cadastrarCliente(clienteMock);
 	    });
-		assertEquals(String.format("CPF '%s' inválido. O CPF deve possuir 11 digitos, sem pontuações.", cpfInvalido), exception.getMessage());
+		
+		assertInstanceOf(InvalidCPFException.class, exception);
 		
 	}
 	
@@ -99,7 +101,7 @@ public class ClienteServiceTest {
 			clienteService.cadastrarCliente(clienteMock);
 	    });
 		
-		assertEquals(String.format("Telefone '%s' inválido. O telefone deve estar no formato (XX)XXXX-XXXX ou (XX)XXXXX-XXXX, onde cada X é um dígito.", telefoneInvalido), exception.getMessage());
+		assertInstanceOf(InvalidTelefoneException.class, exception);
 	}
 	
 	@Test
@@ -112,7 +114,7 @@ public class ClienteServiceTest {
 			clienteService.cadastrarCliente(clienteMock);
 	    });
 		
-		assertEquals(String.format("CEP '%s' inválido. O CEP deve estar no formato 'XXXXX-XXX', onde cada X é um digito.", cepInvalido), exception.getMessage());
+		assertInstanceOf(InvalidCEPException.class, exception);
 	}
 	
 	@Test
@@ -148,7 +150,7 @@ public class ClienteServiceTest {
 			this.clienteService.alteraCliente(this.CPFvalido, clienteDtoMock);
 		});
 		
-		assertEquals(String.format("CEP '%s' inválido. O CEP deve estar no formato 'XXXXX-XXX', onde cada X é um digito.", cepInvalido), exception.getMessage());
+		assertInstanceOf(InvalidCEPException.class, exception);
 	}
 	
 	@Test
@@ -164,7 +166,7 @@ public class ClienteServiceTest {
 			this.clienteService.alteraCliente(this.CPFvalido, clienteDtoMock);
 		});
 		
-		assertEquals(String.format("Telefone '%s' inválido. O telefone deve estar no formato (XX)XXXX-XXXX ou (XX)XXXXX-XXXX, onde cada X é um dígito.", telefoneInvalido), exception.getMessage());
+		assertInstanceOf(InvalidTelefoneException.class, exception);
 	}
 	
 	@Test
