@@ -19,7 +19,7 @@ public class Endereco {
     private Long id;
 	
 	@Getter @Setter @NotBlank private String rua;
-	@Getter @Setter private int numero;
+	@Getter @Setter @NotBlank private int numero;
 	@Getter @Setter @NotBlank private String cep;
 	@OneToOne @JsonIgnore @Getter @Setter private Cliente cliente;
 }

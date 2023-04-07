@@ -5,6 +5,7 @@ import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
@@ -84,7 +85,7 @@ public class ClienteServiceTest {
 		clienteMock.setCPF(cpfInvalido);
 		
 		Throwable exception = assertThrows(InvalidCPFException.class, () -> {
-			clienteService.cadastrarCliente(clienteMock);
+			this.clienteService.cadastrarCliente(clienteMock);
 	    });
 		
 		assertInstanceOf(InvalidCPFException.class, exception);
@@ -98,7 +99,7 @@ public class ClienteServiceTest {
 		clienteMock.setTelefone(telefoneInvalido);
 		
 		Throwable exception = assertThrows(InvalidTelefoneException.class, () -> {
-			clienteService.cadastrarCliente(clienteMock);
+			this.clienteService.cadastrarCliente(clienteMock);
 	    });
 		
 		assertInstanceOf(InvalidTelefoneException.class, exception);
@@ -111,7 +112,7 @@ public class ClienteServiceTest {
 		clienteMock.getEndereco().setCep(cepInvalido);
 		
 		Throwable exception = assertThrows(InvalidCEPException.class, () -> {
-			clienteService.cadastrarCliente(clienteMock);
+			this.clienteService.cadastrarCliente(clienteMock);
 	    });
 		
 		assertInstanceOf(InvalidCEPException.class, exception);
@@ -139,7 +140,7 @@ public class ClienteServiceTest {
 	@Test
 	public void alterarClienteComCepInvalido() {
 		Cliente clienteMock = this.gerarClienteMock();
-		when(clienteRepositoryMock.findByCPF(CPFvalido)).thenReturn(Optional.of(clienteMock));
+		when(this.clienteRepositoryMock.findByCPF(CPFvalido)).thenReturn(Optional.of(clienteMock));
 		ClienteDTO clienteDtoMock = new ClienteDTO();
 		
 		String cepInvalido = "10000";
@@ -156,7 +157,7 @@ public class ClienteServiceTest {
 	@Test
 	public void alterarClienteComTelefoneInvalido() {
 		Cliente clienteMock = this.gerarClienteMock();
-		when(clienteRepositoryMock.findByCPF(CPFvalido)).thenReturn(Optional.of(clienteMock));
+		when(this.clienteRepositoryMock.findByCPF(CPFvalido)).thenReturn(Optional.of(clienteMock));
 		ClienteDTO clienteDtoMock = new ClienteDTO();
 		
 		String telefoneInvalido = "(11(91503-2235";
@@ -172,7 +173,7 @@ public class ClienteServiceTest {
 	@Test
 	public void alteraClienteValido() {
 		Cliente clienteMock = this.gerarClienteMock();
-		when(clienteRepositoryMock.findByCPF(CPFvalido)).thenReturn(Optional.of(clienteMock));
+		when(this.clienteRepositoryMock.findByCPF(CPFvalido)).thenReturn(Optional.of(clienteMock));
 		ClienteDTO clienteDtoMock = new ClienteDTO();
 		String novoNome = "Novo Nome";
 		clienteDtoMock.setNome(novoNome);
