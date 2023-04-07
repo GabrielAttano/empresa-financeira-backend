@@ -150,4 +150,20 @@ public class ClienteServiceTest {
 		
 		assertEquals(String.format("CEP '%s' inválido. O CEP deve estar no formato 'XXXXX-XXX', onde cada X é um digito.", cepInvalido), exception.getMessage());
 	}
+	
+	@Test
+	public void alterarClienteComTelefoneInvalido() {
+		Cliente clienteMock = this.gerarClienteMock();
+		when(clienteRepositoryMock.findByCPF(CPFvalido)).thenReturn(Optional.of(clienteMock));
+		ClienteDTO clienteDtoMock = new ClienteDTO();
+		
+		String telefoneInvalido = "(11(91503-2235";
+		clienteDtoMock.setTelefone(telefoneInvalido);
+		
+		Throwable exception = assertThrows(InvalidTelefoneException.class, () -> {
+			this.clienteService.alteraCliente(this.CPFvalido, clienteDtoMock);
+		});
+		
+		assertEquals(String.format("Telefone '%s' inválido. O telefone deve estar no formato (XX)XXXX-XXXX ou (XX)XXXXX-XXXX, onde cada X é um dígito.", telefoneInvalido), exception.getMessage());
+	}
 }
