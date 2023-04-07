@@ -20,6 +20,10 @@ import com.treinamentoMinsait.empresaFinanceira.DTO.ClienteDTO;
 import com.treinamentoMinsait.empresaFinanceira.entity.Cliente;
 import com.treinamentoMinsait.empresaFinanceira.excecoes.CPFAlreadyExistsException;
 import com.treinamentoMinsait.empresaFinanceira.excecoes.ClienteNotFoundException;
+import com.treinamentoMinsait.empresaFinanceira.excecoes.GlobalExceptionHandler;
+import com.treinamentoMinsait.empresaFinanceira.excecoes.InvalidCEPException;
+import com.treinamentoMinsait.empresaFinanceira.excecoes.InvalidCPFException;
+import com.treinamentoMinsait.empresaFinanceira.excecoes.InvalidTelefoneException;
 import com.treinamentoMinsait.empresaFinanceira.service.ClienteService;
 
 @RestController
@@ -33,63 +37,53 @@ public class ClienteController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> cadastrarCliente(@Valid @RequestBody Cliente cliente) {
-		Cliente clienteCadastrado;
-		
+	public ResponseEntity<?> cadastrarCliente(@Valid @RequestBody Cliente cliente) throws InvalidCPFException, CPFAlreadyExistsException, InvalidCEPException, InvalidTelefoneException {
 		try {
+			Cliente clienteCadastrado;
 			clienteCadastrado = clienteService.cadastrarCliente(cliente);
-		} catch (CPFAlreadyExistsException e1) { 
-			return new ResponseEntity<>(e1.getMessage(), HttpStatus.CONFLICT);
-		} catch (Exception e2) {
-			return new ResponseEntity<>(e2.getMessage(), HttpStatus.BAD_REQUEST);
-		}  
-		
-		return new ResponseEntity<>(new ClienteDTO(clienteCadastrado), HttpStatus.OK);
+			return new ResponseEntity<>(new ClienteDTO(clienteCadastrado), HttpStatus.OK);
+		} catch (InvalidCPFException | CPFAlreadyExistsException | InvalidTelefoneException | InvalidCEPException e) { 
+			throw e;
+		} 
 	}
 	
 	@GetMapping
 	public List<ClienteDTO> recuperarClientes() {
 		List<Cliente> clientesRecuperados;
 		clientesRecuperados = this.clienteService.recuperarClientes();
-		
 		return this.clienteService.transformarClientesEmDTO(clientesRecuperados);
 	}
 	
 	@GetMapping("/{cpf}")
-	public ResponseEntity<?> recuperarCliente(@PathVariable String cpf) {
-		Cliente clienteRecuperado;
-		
+	public ResponseEntity<?> recuperarCliente(@PathVariable String cpf) throws ClienteNotFoundException {		
 		try {
+			Cliente clienteRecuperado;
 			clienteRecuperado = this.clienteService.recuperarCliente(cpf);
+			return new ResponseEntity<>(new ClienteDTO(clienteRecuperado), HttpStatus.OK);
 		} catch (ClienteNotFoundException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+			throw e;
 		}
 		
-		return new ResponseEntity<>(new ClienteDTO(clienteRecuperado), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{cpf}")
-	public ResponseEntity<?> deletaCliente(@PathVariable String cpf) {
+	public ResponseEntity<?> deletaCliente(@PathVariable String cpf) throws ClienteNotFoundException{
 		try {			
 			this.clienteService.deletaCliente(cpf);
+			return new ResponseEntity<>("Cliente deletado com sucesso.", HttpStatus.OK);
 		} catch (ClienteNotFoundException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+			throw e;
 		}
-		
-		return new ResponseEntity<>("Cliente deletado com sucesso.", HttpStatus.OK);
 	}
-	//
+	
 	@PutMapping("/{cpf}")
-	public ResponseEntity<?> alteraCliente(@Valid @RequestBody ClienteDTO clienteDTO, @PathVariable String cpf) {
-		Cliente clienteAlterado;
+	public ResponseEntity<?> alteraCliente(@Valid @RequestBody ClienteDTO clienteDTO, @PathVariable String cpf) throws ClienteNotFoundException, InvalidCEPException, InvalidTelefoneException {
 		try {
+			Cliente clienteAlterado;
 			clienteAlterado = this.clienteService.alteraCliente(cpf, clienteDTO);
-		} catch (ClienteNotFoundException e1) {
-			return new ResponseEntity<>(e1.getMessage(), HttpStatus.NOT_FOUND);
-		} catch (Exception e2) {
-			return new ResponseEntity<>(e2.getMessage(), HttpStatus.BAD_REQUEST);
-		}
-		
-		return new ResponseEntity<>(new ClienteDTO(clienteAlterado), HttpStatus.OK);
+			return new ResponseEntity<>(new ClienteDTO(clienteAlterado), HttpStatus.OK);
+		} catch (InvalidTelefoneException | InvalidCEPException | ClienteNotFoundException e) { 
+			throw e;
+		} 
 	}
 }
