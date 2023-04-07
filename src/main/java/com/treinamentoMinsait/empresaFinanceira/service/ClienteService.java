@@ -10,6 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.treinamentoMinsait.empresaFinanceira.DTO.ClienteDTO;
+import com.treinamentoMinsait.empresaFinanceira.DTO.EnderecoDTO;
 import com.treinamentoMinsait.empresaFinanceira.entity.Cliente;
 import com.treinamentoMinsait.empresaFinanceira.entity.Endereco;
 import com.treinamentoMinsait.empresaFinanceira.excecoes.CPFAlreadyExistsException;
@@ -95,8 +96,8 @@ public class ClienteService {
 		Cliente cliente = this.clienteRepository.findByCPF(cpf)
 				.orElseThrow(() -> new ClienteNotFoundException(cpf));
 		
-		if (clienteDTO.getEndereco() != null) {
-			Endereco novoEndereco = clienteDTO.getEndereco();
+		if (clienteDTO.getEnderecoDTO() != null) {
+			EnderecoDTO novoEndereco = clienteDTO.getEnderecoDTO();
 			this.alteraEndereco(cliente, novoEndereco);
 		}
 		
@@ -122,7 +123,7 @@ public class ClienteService {
 		
 	}
 	
-	private void alteraEndereco(Cliente cliente, Endereco novoEndereco) throws InvalidCEPException {
+	private void alteraEndereco(Cliente cliente, EnderecoDTO novoEndereco) throws InvalidCEPException {
 		
 		String novoCep = novoEndereco.getCep();
 		if (novoCep != null) {				

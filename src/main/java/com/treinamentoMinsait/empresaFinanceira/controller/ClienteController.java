@@ -20,7 +20,6 @@ import com.treinamentoMinsait.empresaFinanceira.DTO.ClienteDTO;
 import com.treinamentoMinsait.empresaFinanceira.entity.Cliente;
 import com.treinamentoMinsait.empresaFinanceira.excecoes.CPFAlreadyExistsException;
 import com.treinamentoMinsait.empresaFinanceira.excecoes.ClienteNotFoundException;
-import com.treinamentoMinsait.empresaFinanceira.excecoes.GlobalExceptionHandler;
 import com.treinamentoMinsait.empresaFinanceira.excecoes.InvalidCEPException;
 import com.treinamentoMinsait.empresaFinanceira.excecoes.InvalidCPFException;
 import com.treinamentoMinsait.empresaFinanceira.excecoes.InvalidTelefoneException;

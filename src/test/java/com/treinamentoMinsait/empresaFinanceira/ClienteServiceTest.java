@@ -19,6 +19,7 @@ import org.mockito.stubbing.Answer;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.treinamentoMinsait.empresaFinanceira.DTO.ClienteDTO;
+import com.treinamentoMinsait.empresaFinanceira.DTO.EnderecoDTO;
 import com.treinamentoMinsait.empresaFinanceira.entity.Cliente;
 import com.treinamentoMinsait.empresaFinanceira.entity.Endereco;
 import com.treinamentoMinsait.empresaFinanceira.excecoes.CPFAlreadyExistsException;
@@ -144,8 +145,11 @@ public class ClienteServiceTest {
 		ClienteDTO clienteDtoMock = new ClienteDTO();
 		
 		String cepInvalido = "10000";
-		clienteDtoMock.setEndereco(clienteMock.getEndereco());
-		clienteDtoMock.getEndereco().setCep(cepInvalido);
+		EnderecoDTO enderecoDtoMock = new EnderecoDTO();
+		enderecoDtoMock.setNumero(clienteMock.getEndereco().getNumero());
+		enderecoDtoMock.setRua(clienteMock.getEndereco().getRua());
+		enderecoDtoMock.setCep(cepInvalido);
+		clienteDtoMock.setEnderecoDTO(enderecoDtoMock);
 		
 		Throwable exception = assertThrows(InvalidCEPException.class, () -> {
 			this.clienteService.alteraCliente(this.CPFvalido, clienteDtoMock);
