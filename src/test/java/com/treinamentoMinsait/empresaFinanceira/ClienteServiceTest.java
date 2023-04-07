@@ -166,4 +166,27 @@ public class ClienteServiceTest {
 		
 		assertEquals(String.format("Telefone '%s' inválido. O telefone deve estar no formato (XX)XXXX-XXXX ou (XX)XXXXX-XXXX, onde cada X é um dígito.", telefoneInvalido), exception.getMessage());
 	}
+	
+	@Test
+	public void alteraClienteValido() {
+		Cliente clienteMock = this.gerarClienteMock();
+		when(clienteRepositoryMock.findByCPF(CPFvalido)).thenReturn(Optional.of(clienteMock));
+		ClienteDTO clienteDtoMock = new ClienteDTO();
+		String novoNome = "Novo Nome";
+		clienteDtoMock.setNome(novoNome);
+		
+		try {
+			Cliente clienteAlterado = this.clienteService.alteraCliente(CPFvalido, clienteDtoMock);
+			assertNotNull(clienteAlterado);
+			assertEquals(novoNome, clienteAlterado.getNome());
+			assertEquals(this.CPFvalido, clienteAlterado.getCPF());
+			assertEquals(this.rendaMensalValida, clienteAlterado.getRendaMensal());
+			assertEquals(this.telefoneValido, clienteAlterado.getTelefone());
+			assertEquals(this.cepValido, clienteAlterado.getEndereco().getCep());
+			assertEquals(this.numeroValido, clienteAlterado.getEndereco().getNumero());
+			assertEquals(this.ruaValida, clienteAlterado.getEndereco().getRua());
+		} catch (Exception e) {
+			fail(String.format("Não deveria ter lançado a exceção '%s'", e.getMessage()));
+		}
+	}
 }
