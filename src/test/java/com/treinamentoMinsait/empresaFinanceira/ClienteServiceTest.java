@@ -149,7 +149,7 @@ public class ClienteServiceTest {
 		enderecoDtoMock.setNumero(clienteMock.getEndereco().getNumero());
 		enderecoDtoMock.setRua(clienteMock.getEndereco().getRua());
 		enderecoDtoMock.setCep(cepInvalido);
-		clienteDtoMock.setEnderecoDTO(enderecoDtoMock);
+		clienteDtoMock.setEndereco(enderecoDtoMock);
 		
 		Throwable exception = assertThrows(InvalidCEPException.class, () -> {
 			this.clienteService.alteraCliente(this.CPFvalido, clienteDtoMock);

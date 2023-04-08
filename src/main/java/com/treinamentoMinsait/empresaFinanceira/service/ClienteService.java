@@ -96,8 +96,8 @@ public class ClienteService {
 		Cliente cliente = this.clienteRepository.findByCPF(cpf)
 				.orElseThrow(() -> new ClienteNotFoundException(cpf));
 		
-		if (clienteDTO.getEnderecoDTO() != null) {
-			EnderecoDTO novoEndereco = clienteDTO.getEnderecoDTO();
+		if (clienteDTO.getEndereco() != null) {
+			EnderecoDTO novoEndereco = clienteDTO.getEndereco();
 			this.alteraEndereco(cliente, novoEndereco);
 		}
 		
