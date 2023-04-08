@@ -6,6 +6,7 @@ import javax.validation.constraints.Min;
 
 import com.treinamentoMinsait.empresaFinanceira.entity.Cliente;
 import com.treinamentoMinsait.empresaFinanceira.entity.Endereco;
+import com.treinamentoMinsait.empresaFinanceira.tipos.Relacionamento;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import lombok.Setter;
 public class ClienteDTO {
 	private Long id;
 	private String nome;
+	private Relacionamento relacionamento;
 	private String telefone;
 	@Min(value=0) private BigDecimal rendaMensal;
 	private EnderecoDTO endereco;
@@ -32,6 +34,7 @@ public class ClienteDTO {
 		enderecoDTO.setNumero(cliente.getEndereco().getNumero());
 		enderecoDTO.setRua(cliente.getEndereco().getRua());
 		this.endereco = enderecoDTO;
+		this.relacionamento = cliente.getRelacionamento();
 		
 	}
 }
