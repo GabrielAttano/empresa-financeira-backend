@@ -11,6 +11,7 @@ A API possui as seguintes rotas:
 * [Recuperação de clientes](#Recuperação-de-Clientes)
 * [Recuperação de cliente](#Recuperação-de-Cliente)
 * [Deletar cliente](#Deletar-Cliente)
+* [Alterar cliente](#Alterar-Cliente)
 
 ## Cadastro de Cliente
 `POST /api/v1/empresa-financeira/clientes`
@@ -52,14 +53,19 @@ onde cada X é um dígito, e todos os campos devem estar devidamente preenchidos
 ## Recuperação de Clientes
 `GET /api/v1/empresa-financeira/clientes`
 
-Retorna uma lista contendo todos os objetos `Cliente` registrados no banco de dados.
+Retorna uma lista contendo todos os `Cliente` registrados no banco de dados.
 
 ## Recuperação de Cliente
 `GET /api/v1/empresa-financeira/clientes/{cpf}`
 
-Retorna um objeto `Cliente` registrado no banco de dados com o CPF informado.
+Retorna um `Cliente` registrado no banco de dados com o CPF informado.
 
 ## Deletar Cliente
 `DELETE /api/v1/empresa-financeira/clientes/{cpf}`
 
 Deleta um `Cliente` registrado no banco de dados com o CPF informado.
+
+## Alterar Cliente
+`PUT /api/v1/empresa-financeira/clientes/{cpf}`
+
+Altera um `Cliente` registrado no banco de dados com o CPF informado. Deve ser informado o(s) atributo(s) do `Cliente` que vai ser alterado e seu valor novo. Não é possível alterar o CPF.
