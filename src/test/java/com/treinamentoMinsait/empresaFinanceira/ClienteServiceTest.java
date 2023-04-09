@@ -5,7 +5,6 @@ import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
@@ -22,7 +21,6 @@ import com.treinamentoMinsait.empresaFinanceira.DTO.ClienteDTO;
 import com.treinamentoMinsait.empresaFinanceira.DTO.EnderecoDTO;
 import com.treinamentoMinsait.empresaFinanceira.entity.Cliente;
 import com.treinamentoMinsait.empresaFinanceira.entity.Endereco;
-import com.treinamentoMinsait.empresaFinanceira.excecoes.CPFAlreadyExistsException;
 import com.treinamentoMinsait.empresaFinanceira.excecoes.InvalidCEPException;
 import com.treinamentoMinsait.empresaFinanceira.excecoes.InvalidCPFException;
 import com.treinamentoMinsait.empresaFinanceira.excecoes.InvalidTelefoneException;

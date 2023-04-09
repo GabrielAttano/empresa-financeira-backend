@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import javax.validation.constraints.Min;
 
 import com.treinamentoMinsait.empresaFinanceira.entity.Cliente;
-import com.treinamentoMinsait.empresaFinanceira.entity.Endereco;
 import com.treinamentoMinsait.empresaFinanceira.tipos.Relacionamento;
 
 import lombok.Getter;

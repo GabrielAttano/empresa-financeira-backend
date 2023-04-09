@@ -19,7 +19,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.treinamentoMinsait.empresaFinanceira.entity.Cliente;
 import com.treinamentoMinsait.empresaFinanceira.entity.Emprestimo;
-import com.treinamentoMinsait.empresaFinanceira.entity.Endereco;
 import com.treinamentoMinsait.empresaFinanceira.excecoes.InsufficientRendaMensalException;
 import com.treinamentoMinsait.empresaFinanceira.excecoes.InvalidValorInicialException;
 import com.treinamentoMinsait.empresaFinanceira.repository.ClienteRepository;
