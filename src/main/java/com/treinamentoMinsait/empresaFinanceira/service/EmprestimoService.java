@@ -39,7 +39,7 @@ public class EmprestimoService {
 		
 		Emprestimo novoEmprestimo = this.criaEmprestimo(cliente, valorInicial);
 		
-		if (!this.clientePodeCriarEmprestimo(cliente, novoEmprestimo.getValorFinal())) {
+		if (!this.clientePodeCriarEmprestimo(cliente, novoEmprestimo.getValorInicial())) {
 			throw new InsufficientRendaMensalException();
 		}
 		
@@ -48,7 +48,7 @@ public class EmprestimoService {
 		return emprestimoRepository.save(novoEmprestimo);
 	}
 	
-	public Emprestimo recuperarEmprestimo(String cpf, Long id) throws ClienteNotFoundException, EmprestimoNotFoundException, InvalidEmprestimoGetException {
+	public Emprestimo recuperaEmprestimo(String cpf, Long id) throws ClienteNotFoundException, EmprestimoNotFoundException, InvalidEmprestimoGetException {
 		Cliente cliente = this.clienteRepository.findByCPF(cpf)
 				.orElseThrow(() -> new ClienteNotFoundException(cpf));
 		
@@ -61,6 +61,21 @@ public class EmprestimoService {
 		}
 		
 		return emprestimo;
+	}
+	
+	public void deletaEmprestimo(String cpf, Long id) throws ClienteNotFoundException, EmprestimoNotFoundException, InvalidEmprestimoGetException {
+		Cliente cliente = this.clienteRepository.findByCPF(cpf)
+				.orElseThrow(() -> new ClienteNotFoundException(cpf));
+		
+		Emprestimo emprestimo = this.emprestimoRepository.findById(id)
+				.orElseThrow(() -> new EmprestimoNotFoundException(id));
+		
+		List<Emprestimo> emprestimosCliente = cliente.getEmprestimos();
+		if (!emprestimosCliente.contains(emprestimo)) {
+			throw new InvalidEmprestimoGetException(cpf, id);
+		}
+		
+		this.emprestimoRepository.delete(emprestimo);
 	}
 	
 	private Emprestimo criaEmprestimo(Cliente cliente, BigDecimal valorInicial) {
@@ -82,15 +97,15 @@ public class EmprestimoService {
 		return novoEmprestimo;
 	}
 	
-	private boolean clientePodeCriarEmprestimo(Cliente cliente, BigDecimal valorFinalNovoEmprestimo) {
+	private boolean clientePodeCriarEmprestimo(Cliente cliente, BigDecimal valorInicialNovoEmprestimo) {
 		BigDecimal rendaMensalCliente = cliente.getRendaMensal();
 		BigDecimal valorMaximoEmprestimos = rendaMensalCliente.multiply(new BigDecimal("10.00"));
 
 		
 		BigDecimal valorTotalEmprestimos = new BigDecimal("0.00");
-		valorTotalEmprestimos = valorTotalEmprestimos.add(valorFinalNovoEmprestimo);
+		valorTotalEmprestimos = valorTotalEmprestimos.add(valorInicialNovoEmprestimo);
 		for (Emprestimo emprestimo : cliente.getEmprestimos()) { 
-			valorTotalEmprestimos = valorTotalEmprestimos.add(emprestimo.getValorFinal());
+			valorTotalEmprestimos = valorTotalEmprestimos.add(emprestimo.getValorInicial());
 		}
 		
 		if (valorTotalEmprestimos.compareTo(valorMaximoEmprestimos) == 1) {
