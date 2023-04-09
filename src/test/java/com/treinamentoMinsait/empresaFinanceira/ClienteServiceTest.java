@@ -28,6 +28,7 @@ import com.treinamentoMinsait.empresaFinanceira.excecoes.InvalidCPFException;
 import com.treinamentoMinsait.empresaFinanceira.excecoes.InvalidTelefoneException;
 import com.treinamentoMinsait.empresaFinanceira.repository.ClienteRepository;
 import com.treinamentoMinsait.empresaFinanceira.service.ClienteService;
+import com.treinamentoMinsait.empresaFinanceira.tipos.Relacionamento;
 
 @SpringBootTest
 public class ClienteServiceTest {
@@ -35,14 +36,16 @@ public class ClienteServiceTest {
 	ClienteRepository clienteRepositoryMock;
 	ClienteService clienteService;
 	
-	private String CPFvalido = "00000000000";
-	private String nomeValido = "Nome";
-	private BigDecimal rendaMensalValida = new BigDecimal(100);
-	private String telefoneValido = "(00)00000-0000";
+	// Atributos validos para o cliente
+	protected String CPFvalido = "00000000000";
+	protected String nomeValido = "Nome";
+	protected BigDecimal rendaMensalValida = new BigDecimal(100);
+	protected String telefoneValido = "(00)00000-0000";
 	
-	private String cepValido = "00000-000";
-	private int numeroValido = 1;
-	private String ruaValida = "Rua";
+	protected String cepValido = "00000-000";
+	protected int numeroValido = 1;
+	protected String ruaValida = "Rua";
+	protected Relacionamento relacionamentoValido = Relacionamento.Ouro;
 	
 	@BeforeEach
 	public void setup() {
@@ -61,12 +64,13 @@ public class ClienteServiceTest {
 		});
 	}
 	
-	private Cliente gerarClienteMock() {
+	protected Cliente gerarClienteMock() {
 		Cliente clienteMock = new Cliente();
 		clienteMock.setCPF(this.CPFvalido);
 		clienteMock.setNome(this.nomeValido);
 		clienteMock.setRendaMensal(this.rendaMensalValida);
 		clienteMock.setTelefone(this.telefoneValido);
+		clienteMock.setRelacionamento(relacionamentoValido);
 		
 		Endereco endereco = new Endereco();
 		endereco.setCep(this.cepValido);
@@ -133,6 +137,7 @@ public class ClienteServiceTest {
 			assertEquals(this.cepValido, clienteSalvo.getEndereco().getCep());
 			assertEquals(this.numeroValido, clienteSalvo.getEndereco().getNumero());
 			assertEquals(this.ruaValida, clienteSalvo.getEndereco().getRua());
+			assertEquals(this.relacionamentoValido, clienteSalvo.getRelacionamento());
 		} catch (Exception e) {
 			fail(String.format("Não deveria ter lançado a exceção '%s'", e.getMessage()));
 		}
