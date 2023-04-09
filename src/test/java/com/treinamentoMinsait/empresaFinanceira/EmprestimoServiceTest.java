@@ -42,16 +42,6 @@ public class EmprestimoServiceTest {
 		
 		emprestimoService = new EmprestimoService(this.clienteRepositoryMock, this.emprestimoRepositoryMock);
 		// configurações do mock
-		when(clienteRepositoryMock.save(Mockito.any(Cliente.class))).thenAnswer(new Answer<Cliente>() {
-			@Override
-			public Cliente answer(InvocationOnMock invocation) throws Throwable {
-				Object[] args = invocation.getArguments();
-				Cliente cliente = (Cliente) args[0];
-				cliente.setId(1L);
-				return cliente;
-			}
-		});
-		
 		when(emprestimoRepositoryMock.save(Mockito.any(Emprestimo.class))).thenAnswer(new Answer<Emprestimo>() {
 			@Override
 			public Emprestimo answer(InvocationOnMock invocation) throws Throwable {
