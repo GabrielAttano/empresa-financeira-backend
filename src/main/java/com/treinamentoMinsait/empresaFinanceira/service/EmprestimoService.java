@@ -75,7 +75,7 @@ public class EmprestimoService {
 			valorTotalEmprestimos = valorTotalEmprestimos.add(emprestimo.getValorFinal());
 		}
 		
-		if (valorTotalEmprestimos.compareTo(valorMaximoEmprestimos) >= 0) {
+		if (valorTotalEmprestimos.compareTo(valorMaximoEmprestimos) == 1) {
 			return false;
 		} else {
 			return true;
@@ -88,6 +88,6 @@ public class EmprestimoService {
 			return true;
 		}
 		
-		return true;
+		return false;
 	}
 }
