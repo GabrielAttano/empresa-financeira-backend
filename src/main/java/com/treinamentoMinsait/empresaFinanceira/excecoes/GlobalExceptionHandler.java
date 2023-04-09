@@ -42,5 +42,15 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<String> handleInsufficientRendaMensalException(InsufficientRendaMensalException e) {
 		return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 	}
+	
+	@ExceptionHandler(EmprestimoNotFoundException.class)
+	public ResponseEntity<String> handleEmprestimoNotFoundException(EmprestimoNotFoundException e) {
+		return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(InvalidEmprestimoGetException.class)
+	public ResponseEntity<String> handleInvalidEmprestimoGetException(InvalidEmprestimoGetException e) {
+		return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+	}
 
 }

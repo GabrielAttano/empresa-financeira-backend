@@ -2,6 +2,7 @@ package com.treinamentoMinsait.empresaFinanceira.service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,7 +10,9 @@ import org.springframework.stereotype.Service;
 import com.treinamentoMinsait.empresaFinanceira.entity.Cliente;
 import com.treinamentoMinsait.empresaFinanceira.entity.Emprestimo;
 import com.treinamentoMinsait.empresaFinanceira.excecoes.ClienteNotFoundException;
+import com.treinamentoMinsait.empresaFinanceira.excecoes.EmprestimoNotFoundException;
 import com.treinamentoMinsait.empresaFinanceira.excecoes.InsufficientRendaMensalException;
+import com.treinamentoMinsait.empresaFinanceira.excecoes.InvalidEmprestimoGetException;
 import com.treinamentoMinsait.empresaFinanceira.excecoes.InvalidValorInicialException;
 import com.treinamentoMinsait.empresaFinanceira.repository.ClienteRepository;
 import com.treinamentoMinsait.empresaFinanceira.repository.EmprestimoRepository;
@@ -43,6 +46,21 @@ public class EmprestimoService {
 		cliente.setEmprestimos(novoEmprestimo);
 		
 		return emprestimoRepository.save(novoEmprestimo);
+	}
+	
+	public Emprestimo recuperarEmprestimo(String cpf, Long id) throws ClienteNotFoundException, EmprestimoNotFoundException, InvalidEmprestimoGetException {
+		Cliente cliente = this.clienteRepository.findByCPF(cpf)
+				.orElseThrow(() -> new ClienteNotFoundException(cpf));
+		
+		Emprestimo emprestimo = this.emprestimoRepository.findById(id)
+				.orElseThrow(() -> new EmprestimoNotFoundException(id));
+		
+		List<Emprestimo> emprestimosCliente = cliente.getEmprestimos();
+		if (!emprestimosCliente.contains(emprestimo)) {
+			throw new InvalidEmprestimoGetException(cpf, id);
+		}
+		
+		return emprestimo;
 	}
 	
 	private Emprestimo criaEmprestimo(Cliente cliente, BigDecimal valorInicial) {
