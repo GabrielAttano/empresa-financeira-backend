@@ -1,5 +1,7 @@
 package com.treinamentoMinsait.empresaFinanceira.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,8 +45,19 @@ public class EmprestimoController {
 		}
 	}
 	
+	@GetMapping
+	public List<EmprestimoDTO> recuperaEmprestimos(@PathVariable String cpf) throws ClienteNotFoundException {
+		try {
+			List<Emprestimo> emprestimosRecuperados;
+			emprestimosRecuperados = this.emprestimoService.recuperaEmprestimos(cpf);
+			return this.emprestimoService.transformarEmprestimosEmDTO(emprestimosRecuperados);
+		} catch (ClienteNotFoundException e) {
+			throw e;
+		}
+	}
+	
 	@GetMapping("/{id}")
-	public ResponseEntity<?> recuperarEmprestimo(@PathVariable String cpf, @PathVariable Long id) throws ClienteNotFoundException, EmprestimoNotFoundException, InvalidEmprestimoGetException {
+	public ResponseEntity<?> recuperaEmprestimo(@PathVariable String cpf, @PathVariable Long id) throws ClienteNotFoundException, EmprestimoNotFoundException, InvalidEmprestimoGetException {
 		try {
 			Emprestimo emprestimoRecuperado;
 			emprestimoRecuperado = this.emprestimoService.recuperaEmprestimo(cpf, id);
