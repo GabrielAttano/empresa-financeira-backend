@@ -86,7 +86,7 @@ Cadastra um novo empréstimo. É necessário enviar o valor inicial do emprésti
 ### Exemplo de requisição
 ```JSON
 {
-  "valorInicial": 1000.00
+  "valorInicial": 5000.00
 }
 ```
 ### Exemplo de Resposta
