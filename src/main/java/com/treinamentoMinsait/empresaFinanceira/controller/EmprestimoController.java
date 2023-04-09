@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.treinamentoMinsait.empresaFinanceira.DTO.EmprestimoDTO;
 import com.treinamentoMinsait.empresaFinanceira.DTO.EmprestimoRequest;
 import com.treinamentoMinsait.empresaFinanceira.entity.Emprestimo;
 import com.treinamentoMinsait.empresaFinanceira.excecoes.ClienteNotFoundException;
@@ -31,7 +32,7 @@ public class EmprestimoController {
 		try {
 			Emprestimo novoEmprestimo;
 			novoEmprestimo = this.emprestimoService.cadastraEmprestimo(cpf, emprestimoRequest.getValorInicial());
-			return new ResponseEntity<>(novoEmprestimo, HttpStatus.OK);
+			return new ResponseEntity<>(new EmprestimoDTO(novoEmprestimo), HttpStatus.OK);
 			
 		} catch (ClienteNotFoundException | InvalidValorInicialException | InsufficientRendaMensalException e) {
 			throw e;
