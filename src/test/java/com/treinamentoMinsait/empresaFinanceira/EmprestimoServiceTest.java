@@ -83,7 +83,7 @@ public class EmprestimoServiceTest {
 		Cliente clienteMock = this.clienteServiceTest.gerarClienteMock();
 		String cpfCliente = clienteMock.getCPF();
 		BigDecimal rendaMensalCliente = clienteMock.getRendaMensal();
-		BigDecimal valorInicialInvalido = rendaMensalCliente.multiply(new BigDecimal("10.00"));
+		BigDecimal valorInicialInvalido = rendaMensalCliente.multiply(new BigDecimal("10.00")).add(new BigDecimal("1.00"));
 		
 		when(this.clienteRepositoryMock.findByCPF(cpfCliente)).thenReturn(Optional.of(clienteMock));		
 		Throwable exception = assertThrows(InsufficientRendaMensalException.class, () -> {
