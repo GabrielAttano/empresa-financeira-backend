@@ -75,6 +75,7 @@ public class EmprestimoService {
 			throw new InvalidEmprestimoGetException(cpf, id);
 		}
 		
+		emprestimosCliente.remove(emprestimo);
 		this.emprestimoRepository.delete(emprestimo);
 	}
 	
