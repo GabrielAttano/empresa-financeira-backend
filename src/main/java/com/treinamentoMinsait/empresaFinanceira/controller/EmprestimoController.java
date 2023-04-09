@@ -3,6 +3,7 @@ package com.treinamentoMinsait.empresaFinanceira.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,8 +47,18 @@ public class EmprestimoController {
 	public ResponseEntity<?> recuperarEmprestimo(@PathVariable String cpf, @PathVariable Long id) throws ClienteNotFoundException, EmprestimoNotFoundException, InvalidEmprestimoGetException {
 		try {
 			Emprestimo emprestimoRecuperado;
-			emprestimoRecuperado = this.emprestimoService.recuperarEmprestimo(cpf, id);
+			emprestimoRecuperado = this.emprestimoService.recuperaEmprestimo(cpf, id);
 			return new ResponseEntity<>(new EmprestimoDTO(emprestimoRecuperado), HttpStatus.OK);
+		} catch (ClienteNotFoundException | EmprestimoNotFoundException | InvalidEmprestimoGetException e) {
+			throw e;
+		}
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deletaEmprestimo(@PathVariable String cpf, @PathVariable Long id) throws ClienteNotFoundException, EmprestimoNotFoundException, InvalidEmprestimoGetException {
+		try {
+			this.emprestimoService.deletaEmprestimo(cpf, id);
+			return new ResponseEntity<>("Emprestimo deletado com sucesso", HttpStatus.OK);
 		} catch (ClienteNotFoundException | EmprestimoNotFoundException | InvalidEmprestimoGetException e) {
 			throw e;
 		}
