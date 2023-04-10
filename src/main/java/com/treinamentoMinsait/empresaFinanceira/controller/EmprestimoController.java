@@ -37,7 +37,7 @@ public class EmprestimoController {
 	public ResponseEntity<?> cadastraEmprestimo(@PathVariable String cpf, @RequestBody EmprestimoRequest emprestimoRequest) throws ClienteNotFoundException, InvalidValorInicialException, InsufficientRendaMensalException {
 		try {
 			Emprestimo novoEmprestimo;
-			novoEmprestimo = this.emprestimoService.cadastraEmprestimo(cpf, emprestimoRequest.getValorInicial());
+			novoEmprestimo = this.emprestimoService.cadastraEmprestimo(cpf, emprestimoRequest.getValorInicial(), emprestimoRequest.getRelacionamento());
 			return new ResponseEntity<>(new EmprestimoDTO(novoEmprestimo), HttpStatus.OK);
 			
 		} catch (ClienteNotFoundException | InvalidValorInicialException | InsufficientRendaMensalException e) {

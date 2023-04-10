@@ -31,7 +31,7 @@ public class EmprestimoService {
 		this.emprestimoRepository = emprestimoRepository;
 	}
 	
-	public Emprestimo cadastraEmprestimo(String cpf, BigDecimal valorInicial) throws ClienteNotFoundException, InvalidValorInicialException, InsufficientRendaMensalException {
+	public Emprestimo cadastraEmprestimo(String cpf, BigDecimal valorInicial, Relacionamento relacionamento) throws ClienteNotFoundException, InvalidValorInicialException, InsufficientRendaMensalException {
 		Cliente cliente = this.clienteRepository.findByCPF(cpf)
 				.orElseThrow(() -> new ClienteNotFoundException(cpf));
 		
@@ -39,7 +39,7 @@ public class EmprestimoService {
 			throw new InvalidValorInicialException(valorInicial);
 		}
 		
-		Emprestimo novoEmprestimo = this.criaEmprestimo(cliente, valorInicial);
+		Emprestimo novoEmprestimo = this.criaEmprestimo(cliente, valorInicial, relacionamento);
 		
 		if (!this.clientePodeCriarEmprestimo(cliente, novoEmprestimo.getValorInicial())) {
 			throw new InsufficientRendaMensalException();
@@ -99,15 +99,16 @@ public class EmprestimoService {
 		return emprestimosDTO;
 	}
 	
-	private Emprestimo criaEmprestimo(Cliente cliente, BigDecimal valorInicial) {
+	private Emprestimo criaEmprestimo(Cliente cliente, BigDecimal valorInicial, Relacionamento relacionamento) {
 		Emprestimo novoEmprestimo = new Emprestimo();
+		
 		novoEmprestimo.setCliente(cliente);
 		novoEmprestimo.setCPFCliente(cliente.getCPF());
 		
 		novoEmprestimo.setValorInicial(valorInicial);
-		Relacionamento relacionamentoCliente = cliente.getRelacionamento();
+		novoEmprestimo.setRelacionamento(relacionamento);
 		int quantidadeEmprestimosCliente = cliente.getEmprestimos().size();
-		BigDecimal valorFinal = relacionamentoCliente.calculaValorFinal(valorInicial, quantidadeEmprestimosCliente);
+		BigDecimal valorFinal = relacionamento.calculaValorFinal(valorInicial, quantidadeEmprestimosCliente);
 		novoEmprestimo.setValorFinal(valorFinal);
 		
 		LocalDate dataAtual = LocalDate.now();
