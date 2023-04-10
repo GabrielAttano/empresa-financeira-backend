@@ -34,6 +34,8 @@ public class EmprestimoServiceTest {
 	
 	ClienteServiceTest clienteServiceTest;
 	
+	protected Relacionamento relacionamentoValido = Relacionamento.Ouro;
+	
 	@BeforeEach
 	public void setup() {
 		clienteRepositoryMock = Mockito.mock(ClienteRepository.class);
@@ -62,7 +64,7 @@ public class EmprestimoServiceTest {
 		BigDecimal valorInicialInvalido = new BigDecimal("-10.00");
 		
 		Throwable exception = assertThrows(InvalidValorInicialException.class, () -> {
-			this.emprestimoService.cadastraEmprestimo(cpfCliente, valorInicialInvalido);
+			this.emprestimoService.cadastraEmprestimo(cpfCliente, valorInicialInvalido, this.relacionamentoValido);
 		});
 		
 		assertInstanceOf(InvalidValorInicialException.class, exception);
@@ -77,7 +79,7 @@ public class EmprestimoServiceTest {
 		
 		when(this.clienteRepositoryMock.findByCPF(cpfCliente)).thenReturn(Optional.of(clienteMock));		
 		Throwable exception = assertThrows(InsufficientRendaMensalException.class, () -> {
-			this.emprestimoService.cadastraEmprestimo(cpfCliente, valorInicialInvalido);
+			this.emprestimoService.cadastraEmprestimo(cpfCliente, valorInicialInvalido, this.relacionamentoValido);
 		});
 		
 		assertInstanceOf(InsufficientRendaMensalException.class, exception);
@@ -87,20 +89,19 @@ public class EmprestimoServiceTest {
 	public void criarEmprestimoValido() {
 		Cliente clienteMock = this.clienteServiceTest.gerarClienteMock();
 		String cpfCliente = clienteMock.getCPF();
-		Relacionamento relacionamentoCliente = clienteMock.getRelacionamento();
 		int totalEmprestimosCliente = clienteMock.getEmprestimos().size();
-		
-				
 		BigDecimal rendaMensalCliente = clienteMock.getRendaMensal();
+		
 		BigDecimal valorInicialValido = rendaMensalCliente.multiply(new BigDecimal("5.00"));
-		BigDecimal valorFinalValido = relacionamentoCliente.calculaValorFinal(valorInicialValido, totalEmprestimosCliente);
+		BigDecimal valorFinalValido = this.relacionamentoValido.calculaValorFinal(valorInicialValido, totalEmprestimosCliente);
 			
 		when(this.clienteRepositoryMock.findByCPF(cpfCliente)).thenReturn(Optional.of(clienteMock));
 		try {
-			Emprestimo emprestimoSalvo = this.emprestimoService.cadastraEmprestimo(cpfCliente, valorInicialValido);
+			Emprestimo emprestimoSalvo = this.emprestimoService.cadastraEmprestimo(cpfCliente, valorInicialValido, this.relacionamentoValido);
 			assertNotNull(emprestimoSalvo); 
 			assertEquals(valorInicialValido, emprestimoSalvo.getValorInicial());
 			assertEquals(valorFinalValido, emprestimoSalvo.getValorFinal());
+			assertEquals(this.relacionamentoValido, emprestimoSalvo.getRelacionamento());
 			
 			
 		} catch (Exception e) {

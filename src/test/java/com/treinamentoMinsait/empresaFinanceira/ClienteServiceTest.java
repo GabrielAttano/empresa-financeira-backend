@@ -26,7 +26,6 @@ import com.treinamentoMinsait.empresaFinanceira.excecoes.InvalidCPFException;
 import com.treinamentoMinsait.empresaFinanceira.excecoes.InvalidTelefoneException;
 import com.treinamentoMinsait.empresaFinanceira.repository.ClienteRepository;
 import com.treinamentoMinsait.empresaFinanceira.service.ClienteService;
-import com.treinamentoMinsait.empresaFinanceira.tipos.Relacionamento;
 
 @SpringBootTest
 public class ClienteServiceTest {
@@ -43,7 +42,6 @@ public class ClienteServiceTest {
 	protected String cepValido = "00000-000";
 	protected int numeroValido = 1;
 	protected String ruaValida = "Rua";
-	protected Relacionamento relacionamentoValido = Relacionamento.Ouro;
 	
 	@BeforeEach
 	public void setup() {
@@ -68,7 +66,6 @@ public class ClienteServiceTest {
 		clienteMock.setNome(this.nomeValido);
 		clienteMock.setRendaMensal(this.rendaMensalValida);
 		clienteMock.setTelefone(this.telefoneValido);
-		clienteMock.setRelacionamento(relacionamentoValido);
 		
 		Endereco endereco = new Endereco();
 		endereco.setCep(this.cepValido);
@@ -135,7 +132,6 @@ public class ClienteServiceTest {
 			assertEquals(this.cepValido, clienteSalvo.getEndereco().getCep());
 			assertEquals(this.numeroValido, clienteSalvo.getEndereco().getNumero());
 			assertEquals(this.ruaValida, clienteSalvo.getEndereco().getRua());
-			assertEquals(this.relacionamentoValido, clienteSalvo.getRelacionamento());
 		} catch (Exception e) {
 			fail(String.format("Não deveria ter lançado a exceção '%s'", e.getMessage()));
 		}
