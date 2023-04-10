@@ -22,15 +22,14 @@ Retorna o objeto `Cliente` cadastrado com o atributo `id` preenchido.
 ### Exemplo de requisição
 ```JSON
 {
-  "cpf": "XXXXXXXXXXX",
+  "cpf": "00000000000",
   "nome": "Gabriel Alberto Moura de Sá",
-  "telefone": "(XX)XXXXX-XXXX",
-  "rendaMensal": 0,
-  "relacionamento": "Prata",
+  "telefone": "(00)00000-0000",
+  "rendaMensal": 100.00,
   "endereco": {
-    "rua": "São José",
-    "numero": 104,
-    "cep": "XXXXX-XXX"
+    "rua": "Nome da Rua",
+    "numero": 10,
+    "cep": "00000-000"
   }
 }
 ```
@@ -41,12 +40,11 @@ onde cada X é um dígito, e todos os campos devem estar devidamente preenchidos
 {
   "id": 1,
   "nome": "Gabriel Alberto Moura de Sá",
-  "relacionamento": "Prata",
   "telefone": "(00)00000-0000",
-  "rendaMensal": 0,
+  "rendaMensal": 100.00,
   "endereco": {
-    "rua": "São José",
-    "numero": 104,
+    "rua": "Nome da Rua",
+    "numero": 10,
     "cep": "00000-000"
   }
 }
@@ -81,22 +79,24 @@ Altera um `Cliente` registrado no banco de dados com o CPF informado. Deve ser i
 ## Cadastrar Empréstimo
 `POST /api/v1/empresa-financeira/clientes/{cpf}/emprestimos`
 
-Cadastra um novo empréstimo. É necessário enviar o valor inicial do empréstimo no corpo da requisição. Retorna o objeto `Emprestimo` cadastrado com o id preenchido.
+Cadastra um novo empréstimo. É necessário enviar o valor inicial e o `relacionamento` do empréstimo no corpo da requisição. O `relacionamento` pode ser `Ouro`, `Prata` ou `Bronze`. Retorna o objeto `Emprestimo` cadastrado com id, valor final, data inicial e data final preenchidos.
 
 ### Exemplo de requisição
 ```JSON
 {
-  "valorInicial": 5000.00
+  "valorInicial": 100.00,
+  "relacionamento": "Ouro"
 }
 ```
 ### Exemplo de Resposta
 ```JSON
 {
   "id": 1,
-  "valorInicial": 5000.00,
-  "valorFinal": 7000.70,
-  "dataInicial": "YYYY-MM-DD",
-  "dataFinal": "YYYY-MM-DD"
+  "valorInicial": 100.00,
+  "valorFinal": 120.000,
+  "dataInicial": "2023-04-10",
+  "dataFinal": "2023-05-10",
+  "relacionamento": "Ouro"
 }
 ```
 
