@@ -15,8 +15,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import com.treinamentoMinsait.empresaFinanceira.tipos.Relacionamento;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,7 +28,6 @@ public class Cliente {
 	@Getter @Setter @NotBlank private String nome;
 	@Getter @Setter @NotBlank private String telefone;
 	@Getter @Setter @Min(value=0) @NotNull private BigDecimal rendaMensal;
-	@Getter @Setter @NotNull private Relacionamento relacionamento;
 	
 	@OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL)
 	@Getter @Setter private Endereco endereco;

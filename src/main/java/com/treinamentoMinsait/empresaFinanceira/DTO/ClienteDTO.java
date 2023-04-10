@@ -33,7 +33,5 @@ public class ClienteDTO {
 		enderecoDTO.setNumero(cliente.getEndereco().getNumero());
 		enderecoDTO.setRua(cliente.getEndereco().getRua());
 		this.endereco = enderecoDTO;
-		this.relacionamento = cliente.getRelacionamento();
-		
 	}
 }
