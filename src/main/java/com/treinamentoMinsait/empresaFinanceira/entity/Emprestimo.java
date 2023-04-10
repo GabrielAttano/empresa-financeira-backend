@@ -9,26 +9,25 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.treinamentoMinsait.empresaFinanceira.tipos.Relacionamento;
 
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
+@Entity @Getter @Setter
 public class Emprestimo {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter @Setter private Long id;
+    private Long id;
 	
-	@Getter @Setter private String CPFCliente;
-	@Getter @Setter private BigDecimal valorInicial;
-	@Getter @Setter private BigDecimal valorFinal;
-	@Getter @Setter @NotNull private LocalDate dataInicial;
-	@Getter @Setter @NotNull private LocalDate dataFinal;
-	
-	@ManyToOne
-	@JoinColumn(name = "cliente_id")
-	@Getter @Setter @JsonIgnore private Cliente cliente;
+	private String CPFCliente;
+	private BigDecimal valorInicial;
+	private Relacionamento relacionamento;
+	private BigDecimal valorFinal;
+	private LocalDate dataInicial;
+	private LocalDate dataFinal;
+	@ManyToOne @JoinColumn(name = "cliente_id")
+	@JsonIgnore private Cliente cliente;
 }

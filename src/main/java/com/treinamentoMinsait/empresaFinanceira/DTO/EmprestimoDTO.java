@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import com.treinamentoMinsait.empresaFinanceira.entity.Emprestimo;
+import com.treinamentoMinsait.empresaFinanceira.tipos.Relacionamento;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,7 @@ public class EmprestimoDTO {
 	private BigDecimal valorFinal;
 	private LocalDate dataInicial;
 	private LocalDate dataFinal;
+	private Relacionamento relacionamento;
 	
 	public EmprestimoDTO(Emprestimo emprestimo) {
 		this.id = emprestimo.getId();
@@ -22,5 +24,6 @@ public class EmprestimoDTO {
 		this.valorFinal = emprestimo.getValorFinal();
 		this.dataInicial = emprestimo.getDataInicial();
 		this.dataFinal = emprestimo.getDataFinal();
+		this.relacionamento = emprestimo.getRelacionamento();
 	}
 }
