@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import javax.validation.constraints.Min;
 
 import com.treinamentoMinsait.empresaFinanceira.entity.Cliente;
-import com.treinamentoMinsait.empresaFinanceira.tipos.Relacionamento;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,8 +12,8 @@ import lombok.Setter;
 @Getter @Setter
 public class ClienteDTO {
 	private Long id;
+	private String cpf;
 	private String nome;
-	private Relacionamento relacionamento;
 	private String telefone;
 	@Min(value=0) private BigDecimal rendaMensal;
 	private EnderecoDTO endereco;
@@ -25,6 +24,7 @@ public class ClienteDTO {
 	
 	public ClienteDTO(Cliente cliente) {
 		this.id = cliente.getId();
+		this.cpf = cliente.getCPF();
 		this.nome = cliente.getNome();
 		this.telefone = cliente.getTelefone();
 		this.rendaMensal = cliente.getRendaMensal();

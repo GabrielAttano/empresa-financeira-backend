@@ -33,12 +33,12 @@ Retorna o objeto `Cliente` cadastrado com o atributo `id` preenchido.
   }
 }
 ```
-onde cada X é um dígito, e todos os campos devem estar devidamente preenchidos.
 
 ### Exemplo de resposta
 ```JSON
 {
   "id": 1,
+  "cpf": 00000000000,
   "nome": "Gabriel Alberto Moura de Sá",
   "telefone": "(00)00000-0000",
   "rendaMensal": 100.00,
