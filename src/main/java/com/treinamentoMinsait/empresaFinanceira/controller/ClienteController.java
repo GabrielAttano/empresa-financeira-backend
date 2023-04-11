@@ -69,7 +69,7 @@ public class ClienteController {
 	public ResponseEntity<?> deletaCliente(@PathVariable String cpf) throws ClienteNotFoundException{
 		try {			
 			this.clienteService.deletaCliente(cpf);
-			return new ResponseEntity<>("Cliente deletado com sucesso.", HttpStatus.OK);
+			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (ClienteNotFoundException e) {
 			throw e;
 		}
