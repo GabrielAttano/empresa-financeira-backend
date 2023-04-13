@@ -38,7 +38,7 @@ Retorna o `Cliente` cadastrado com o atributo `id` preenchido.
 ```JSON
 {
   "id": 1,
-  "cpf": 00000000000,
+  "cpf": "00000000000",
   "nome": "Gabriel Alberto Moura de Sá",
   "telefone": "(00)00000-0000",
   "rendimentoMensal": 100.00,
