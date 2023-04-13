@@ -106,9 +106,9 @@ public class ClienteService {
 			cliente.setNome(novoNome);
 		}
 		
-		if (clienteDTO.getRendaMensal() != null) {
-			BigDecimal novaRendaMensal = clienteDTO.getRendaMensal();
-			cliente.setRendaMensal(novaRendaMensal);
+		if (clienteDTO.getRendimentoMensal() != null) {
+			BigDecimal novaRendaMensal = clienteDTO.getRendimentoMensal();
+			cliente.setRendimentoMensal(novaRendaMensal);
 		}
 		
 		if (clienteDTO.getTelefone() != null) {

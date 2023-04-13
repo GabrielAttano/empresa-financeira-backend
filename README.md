@@ -17,7 +17,7 @@ A API possui rotas para o [cliente](#Rotas-para-o-cliente) e para os [empréstim
 `POST /api/v1/empresa-financeira/clientes`
 
 Cadastra um novo cliente na base de dados. É necessário enviar um objeto Cliente no corpo da requisição.
-Retorna o objeto `Cliente` cadastrado com o atributo `id` preenchido.
+Retorna o `Cliente` cadastrado com o atributo `id` preenchido.
 
 ### Exemplo de requisição
 ```JSON
@@ -25,7 +25,7 @@ Retorna o objeto `Cliente` cadastrado com o atributo `id` preenchido.
   "cpf": "00000000000",
   "nome": "Gabriel Alberto Moura de Sá",
   "telefone": "(00)00000-0000",
-  "rendaMensal": 100.00,
+  "rendimentoMensal": 100.00,
   "endereco": {
     "rua": "Nome da Rua",
     "numero": 10,
@@ -41,7 +41,7 @@ Retorna o objeto `Cliente` cadastrado com o atributo `id` preenchido.
   "cpf": 00000000000,
   "nome": "Gabriel Alberto Moura de Sá",
   "telefone": "(00)00000-0000",
-  "rendaMensal": 100.00,
+  "rendimentoMensal": 100.00,
   "endereco": {
     "rua": "Nome da Rua",
     "numero": 10,

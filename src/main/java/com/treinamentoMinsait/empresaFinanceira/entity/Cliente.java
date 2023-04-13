@@ -27,7 +27,7 @@ public class Cliente {
 	@Getter @Setter @NotBlank private String CPF;
 	@Getter @Setter @NotBlank private String nome;
 	@Getter @Setter @NotBlank private String telefone;
-	@Getter @Setter @Min(value=0) @NotNull private BigDecimal rendaMensal;
+	@Getter @Setter @Min(value=0) @NotNull private BigDecimal rendimentoMensal;
 	
 	@OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL)
 	@Getter @Setter private Endereco endereco;

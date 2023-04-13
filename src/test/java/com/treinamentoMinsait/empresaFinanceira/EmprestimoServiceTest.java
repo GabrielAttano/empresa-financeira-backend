@@ -74,7 +74,7 @@ public class EmprestimoServiceTest {
 	public void criarEmprestimoComRendaMensalInsuficiente() {
 		Cliente clienteMock = this.clienteServiceTest.gerarClienteMock();
 		String cpfCliente = clienteMock.getCPF();
-		BigDecimal rendaMensalCliente = clienteMock.getRendaMensal();
+		BigDecimal rendaMensalCliente = clienteMock.getRendimentoMensal();
 		BigDecimal valorInicialInvalido = rendaMensalCliente.multiply(new BigDecimal("10.00")).add(new BigDecimal("1.00"));
 		
 		when(this.clienteRepositoryMock.findByCPF(cpfCliente)).thenReturn(Optional.of(clienteMock));		
@@ -90,7 +90,7 @@ public class EmprestimoServiceTest {
 		Cliente clienteMock = this.clienteServiceTest.gerarClienteMock();
 		String cpfCliente = clienteMock.getCPF();
 		int totalEmprestimosCliente = clienteMock.getEmprestimos().size();
-		BigDecimal rendaMensalCliente = clienteMock.getRendaMensal();
+		BigDecimal rendaMensalCliente = clienteMock.getRendimentoMensal();
 		
 		BigDecimal valorInicialValido = rendaMensalCliente.multiply(new BigDecimal("5.00"));
 		BigDecimal valorFinalValido = this.relacionamentoValido.calculaValorFinal(valorInicialValido, totalEmprestimosCliente);

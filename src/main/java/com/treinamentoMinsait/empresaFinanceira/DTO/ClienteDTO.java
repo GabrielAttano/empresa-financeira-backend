@@ -15,7 +15,7 @@ public class ClienteDTO {
 	private String cpf;
 	private String nome;
 	private String telefone;
-	@Min(value=0) private BigDecimal rendaMensal;
+	@Min(value=0) private BigDecimal rendimentoMensal;
 	private EnderecoDTO endereco;
 	
 	public ClienteDTO() {
@@ -27,7 +27,7 @@ public class ClienteDTO {
 		this.cpf = cliente.getCPF();
 		this.nome = cliente.getNome();
 		this.telefone = cliente.getTelefone();
-		this.rendaMensal = cliente.getRendaMensal();
+		this.rendimentoMensal = cliente.getRendimentoMensal();
 		EnderecoDTO enderecoDTO = new EnderecoDTO();
 		enderecoDTO.setCep(cliente.getEndereco().getCep());
 		enderecoDTO.setNumero(cliente.getEndereco().getNumero());

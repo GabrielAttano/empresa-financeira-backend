@@ -23,9 +23,9 @@ public enum Relacionamento {
 		@Override
 		public BigDecimal calculaValorFinal(BigDecimal valorInicial, int quantidadeEmprestimos) {
 			if (quantidadeEmprestimos <= 1) {
-				return valorInicial.multiply(new BigDecimal("1.2"));
+				return valorInicial.multiply(new BigDecimal("1.20"));
 			} else {
-				return valorInicial.multiply(new BigDecimal("1.3"));
+				return valorInicial.multiply(new BigDecimal("1.30"));
 			}
 		}
 	};

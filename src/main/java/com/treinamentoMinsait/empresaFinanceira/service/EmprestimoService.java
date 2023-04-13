@@ -120,7 +120,7 @@ public class EmprestimoService {
 	}
 	
 	private boolean clientePodeCriarEmprestimo(Cliente cliente, BigDecimal valorInicialNovoEmprestimo) {
-		BigDecimal rendaMensalCliente = cliente.getRendaMensal();
+		BigDecimal rendaMensalCliente = cliente.getRendimentoMensal();
 		BigDecimal valorMaximoEmprestimos = rendaMensalCliente.multiply(new BigDecimal("10.00"));
 
 		

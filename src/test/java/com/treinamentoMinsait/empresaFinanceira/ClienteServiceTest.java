@@ -36,7 +36,7 @@ public class ClienteServiceTest {
 	// Atributos validos para o cliente
 	protected String CPFvalido = "00000000000";
 	protected String nomeValido = "Nome";
-	protected BigDecimal rendaMensalValida = new BigDecimal(100);
+	protected BigDecimal rendimentoMensalValido = new BigDecimal(100);
 	protected String telefoneValido = "(00)00000-0000";
 	
 	protected String cepValido = "00000-000";
@@ -64,7 +64,7 @@ public class ClienteServiceTest {
 		Cliente clienteMock = new Cliente();
 		clienteMock.setCPF(this.CPFvalido);
 		clienteMock.setNome(this.nomeValido);
-		clienteMock.setRendaMensal(this.rendaMensalValida);
+		clienteMock.setRendimentoMensal(this.rendimentoMensalValido);
 		clienteMock.setTelefone(this.telefoneValido);
 		
 		Endereco endereco = new Endereco();
@@ -127,7 +127,7 @@ public class ClienteServiceTest {
 			assertNotNull(clienteSalvo);
 			assertEquals(this.nomeValido, clienteSalvo.getNome());
 			assertEquals(this.CPFvalido, clienteSalvo.getCPF());
-			assertEquals(this.rendaMensalValida, clienteSalvo.getRendaMensal());
+			assertEquals(this.rendimentoMensalValido, clienteSalvo.getRendimentoMensal());
 			assertEquals(this.telefoneValido, clienteSalvo.getTelefone());
 			assertEquals(this.cepValido, clienteSalvo.getEndereco().getCep());
 			assertEquals(this.numeroValido, clienteSalvo.getEndereco().getNumero());
@@ -186,7 +186,7 @@ public class ClienteServiceTest {
 			assertNotNull(clienteAlterado);
 			assertEquals(novoNome, clienteAlterado.getNome());
 			assertEquals(this.CPFvalido, clienteAlterado.getCPF());
-			assertEquals(this.rendaMensalValida, clienteAlterado.getRendaMensal());
+			assertEquals(this.rendimentoMensalValido, clienteAlterado.getRendimentoMensal());
 			assertEquals(this.telefoneValido, clienteAlterado.getTelefone());
 			assertEquals(this.cepValido, clienteAlterado.getEndereco().getCep());
 			assertEquals(this.numeroValido, clienteAlterado.getEndereco().getNumero());
