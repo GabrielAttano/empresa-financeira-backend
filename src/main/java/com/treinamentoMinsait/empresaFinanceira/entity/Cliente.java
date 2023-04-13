@@ -30,7 +30,7 @@ public class Cliente {
 	@Getter @Setter @Min(value=0) @NotNull private BigDecimal rendimentoMensal;
 	
 	@OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL)
-	@Getter @Setter private Endereco endereco;
+	@Getter @Setter @NotNull private Endereco endereco;
 	
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	@Getter private List<Emprestimo> emprestimos = new ArrayList<>();
