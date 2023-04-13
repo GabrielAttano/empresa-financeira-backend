@@ -75,6 +75,7 @@ public class ClienteService {
 	public void deletaCliente(String cpf) throws ClienteNotFoundException {
 		Cliente cliente = this.clienteRepository.findByCpf(cpf)
 				.orElseThrow(() -> new ClienteNotFoundException(cpf));
+		
 		clienteRepository.delete(cliente);
 	}
 	
@@ -89,12 +90,16 @@ public class ClienteService {
 		
 		if (clienteDTO.getNome() != null) {
 			String novoNome = clienteDTO.getNome();
-			cliente.setNome(novoNome);
+			if (novoNome != "") {				
+				cliente.setNome(novoNome);
+			}
 		}
 		
 		if (clienteDTO.getRendimentoMensal() != null) {
 			BigDecimal novaRendaMensal = clienteDTO.getRendimentoMensal();
-			cliente.setRendimentoMensal(novaRendaMensal);
+			if (novaRendaMensal.compareTo(new BigDecimal("0")) >= 0) {				
+				cliente.setRendimentoMensal(novaRendaMensal);
+			}
 		}
 		
 		if (clienteDTO.getTelefone() != null) {
@@ -120,13 +125,15 @@ public class ClienteService {
 		}
 		
 		int novoNumero = novoEndereco.getNumero();
-		if (novoNumero != 0) {
+		if (novoNumero >= 0) {
 			cliente.getEndereco().setNumero(novoNumero);				
 		}
 		
 		String novaRua = novoEndereco.getRua();
-		if (novaRua != null) {				
-			cliente.getEndereco().setRua(novaRua);
+		if (novaRua != null) {
+			if (novaRua != "") {
+				cliente.getEndereco().setRua(novaRua);				
+			}
 		}
 	}
 	

@@ -76,7 +76,7 @@ public class ClienteController {
 	}
 	
 	@PutMapping("/{cpf}")
-	public ResponseEntity<?> alteraCliente(@Valid @RequestBody ClienteDTO clienteDTO, @PathVariable String cpf) throws ClienteNotFoundException, InvalidCEPException, InvalidTelefoneException {
+	public ResponseEntity<?> alteraCliente(@RequestBody ClienteDTO clienteDTO, @PathVariable String cpf) throws ClienteNotFoundException, InvalidCEPException, InvalidTelefoneException {
 		try {
 			Cliente clienteAlterado;
 			clienteAlterado = this.clienteService.alteraCliente(cpf, clienteDTO);
