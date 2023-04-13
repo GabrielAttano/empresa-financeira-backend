@@ -36,11 +36,11 @@ public class ClienteController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> cadastrarCliente(@Valid @RequestBody Cliente cliente) throws InvalidCPFException, CPFAlreadyExistsException, InvalidCEPException, InvalidTelefoneException {
+	public ResponseEntity<?> cadastrarCliente(@Valid @RequestBody ClienteDTO clienteDTO) throws InvalidCPFException, CPFAlreadyExistsException, InvalidCEPException, InvalidTelefoneException {
 		try {
 			Cliente clienteCadastrado;
-			clienteCadastrado = clienteService.cadastrarCliente(cliente);
-			return new ResponseEntity<>(ClienteDTO.transformaClienteEmDto(clienteCadastrado), HttpStatus.OK);
+			clienteCadastrado = clienteService.cadastrarCliente(clienteDTO);
+			return new ResponseEntity<>(ClienteDTO.transformarClienteEmDto(clienteCadastrado), HttpStatus.OK);
 		} catch (InvalidCPFException | CPFAlreadyExistsException | InvalidTelefoneException | InvalidCEPException e) { 
 			throw e;
 		} 
@@ -58,7 +58,7 @@ public class ClienteController {
 		try {
 			Cliente clienteRecuperado;
 			clienteRecuperado = this.clienteService.recuperarCliente(cpf);
-			return new ResponseEntity<>(ClienteDTO.transformaClienteEmDto(clienteRecuperado), HttpStatus.OK);
+			return new ResponseEntity<>(ClienteDTO.transformarClienteEmDto(clienteRecuperado), HttpStatus.OK);
 		} catch (ClienteNotFoundException e) {
 			throw e;
 		}
@@ -80,7 +80,7 @@ public class ClienteController {
 		try {
 			Cliente clienteAlterado;
 			clienteAlterado = this.clienteService.alteraCliente(cpf, clienteDTO);
-			return new ResponseEntity<>(ClienteDTO.transformaClienteEmDto(clienteAlterado), HttpStatus.OK);
+			return new ResponseEntity<>(ClienteDTO.transformarClienteEmDto(clienteAlterado), HttpStatus.OK);
 		} catch (InvalidTelefoneException | InvalidCEPException | ClienteNotFoundException e) { 
 			throw e;
 		} 

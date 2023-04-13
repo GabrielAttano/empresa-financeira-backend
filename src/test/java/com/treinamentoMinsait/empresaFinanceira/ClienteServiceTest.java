@@ -62,7 +62,7 @@ public class ClienteServiceTest {
 	
 	protected Cliente gerarClienteMock() {
 		Cliente clienteMock = new Cliente();
-		clienteMock.setCPF(this.CPFvalido);
+		clienteMock.setCpf(this.CPFvalido);
 		clienteMock.setNome(this.nomeValido);
 		clienteMock.setRendimentoMensal(this.rendimentoMensalValido);
 		clienteMock.setTelefone(this.telefoneValido);
@@ -82,10 +82,10 @@ public class ClienteServiceTest {
 	public void criarUsuarioComCpfInvalido() {
 		Cliente clienteMock = this.gerarClienteMock();
 		String cpfInvalido = "123";
-		clienteMock.setCPF(cpfInvalido);
+		clienteMock.setCpf(cpfInvalido);
 		
 		Throwable exception = assertThrows(InvalidCPFException.class, () -> {
-			this.clienteService.cadastrarCliente(clienteMock);
+			this.clienteService.cadastrarCliente(ClienteDTO.transformarClienteEmDto(clienteMock));
 	    });
 		
 		assertInstanceOf(InvalidCPFException.class, exception);
@@ -99,7 +99,7 @@ public class ClienteServiceTest {
 		clienteMock.setTelefone(telefoneInvalido);
 		
 		Throwable exception = assertThrows(InvalidTelefoneException.class, () -> {
-			this.clienteService.cadastrarCliente(clienteMock);
+			this.clienteService.cadastrarCliente(ClienteDTO.transformarClienteEmDto(clienteMock));
 	    });
 		
 		assertInstanceOf(InvalidTelefoneException.class, exception);
@@ -112,7 +112,7 @@ public class ClienteServiceTest {
 		clienteMock.getEndereco().setCep(cepInvalido);
 		
 		Throwable exception = assertThrows(InvalidCEPException.class, () -> {
-			this.clienteService.cadastrarCliente(clienteMock);
+			this.clienteService.cadastrarCliente(ClienteDTO.transformarClienteEmDto(clienteMock));
 	    });
 		
 		assertInstanceOf(InvalidCEPException.class, exception);
@@ -123,10 +123,10 @@ public class ClienteServiceTest {
 		Cliente clienteMock = this.gerarClienteMock();
 		try {
 			
-			Cliente clienteSalvo = this.clienteService.cadastrarCliente(clienteMock);
+			Cliente clienteSalvo = this.clienteService.cadastrarCliente(ClienteDTO.transformarClienteEmDto(clienteMock));
 			assertNotNull(clienteSalvo);
 			assertEquals(this.nomeValido, clienteSalvo.getNome());
-			assertEquals(this.CPFvalido, clienteSalvo.getCPF());
+			assertEquals(this.CPFvalido, clienteSalvo.getCpf());
 			assertEquals(this.rendimentoMensalValido, clienteSalvo.getRendimentoMensal());
 			assertEquals(this.telefoneValido, clienteSalvo.getTelefone());
 			assertEquals(this.cepValido, clienteSalvo.getEndereco().getCep());
@@ -140,7 +140,7 @@ public class ClienteServiceTest {
 	@Test
 	public void alterarClienteComCepInvalido() {
 		Cliente clienteMock = this.gerarClienteMock();
-		when(this.clienteRepositoryMock.findByCPF(CPFvalido)).thenReturn(Optional.of(clienteMock));
+		when(this.clienteRepositoryMock.findByCpf(CPFvalido)).thenReturn(Optional.of(clienteMock));
 		ClienteDTO clienteDtoMock = new ClienteDTO();
 		
 		String cepInvalido = "10000";
@@ -160,7 +160,7 @@ public class ClienteServiceTest {
 	@Test
 	public void alterarClienteComTelefoneInvalido() {
 		Cliente clienteMock = this.gerarClienteMock();
-		when(this.clienteRepositoryMock.findByCPF(CPFvalido)).thenReturn(Optional.of(clienteMock));
+		when(this.clienteRepositoryMock.findByCpf(CPFvalido)).thenReturn(Optional.of(clienteMock));
 		ClienteDTO clienteDtoMock = new ClienteDTO();
 		
 		String telefoneInvalido = "(11(91503-2235";
@@ -176,7 +176,7 @@ public class ClienteServiceTest {
 	@Test
 	public void alteraClienteValido() {
 		Cliente clienteMock = this.gerarClienteMock();
-		when(this.clienteRepositoryMock.findByCPF(CPFvalido)).thenReturn(Optional.of(clienteMock));
+		when(this.clienteRepositoryMock.findByCpf(CPFvalido)).thenReturn(Optional.of(clienteMock));
 		ClienteDTO clienteDtoMock = new ClienteDTO();
 		String novoNome = "Novo Nome";
 		clienteDtoMock.setNome(novoNome);
@@ -185,7 +185,7 @@ public class ClienteServiceTest {
 			Cliente clienteAlterado = this.clienteService.alteraCliente(CPFvalido, clienteDtoMock);
 			assertNotNull(clienteAlterado);
 			assertEquals(novoNome, clienteAlterado.getNome());
-			assertEquals(this.CPFvalido, clienteAlterado.getCPF());
+			assertEquals(this.CPFvalido, clienteAlterado.getCpf());
 			assertEquals(this.rendimentoMensalValido, clienteAlterado.getRendimentoMensal());
 			assertEquals(this.telefoneValido, clienteAlterado.getTelefone());
 			assertEquals(this.cepValido, clienteAlterado.getEndereco().getCep());

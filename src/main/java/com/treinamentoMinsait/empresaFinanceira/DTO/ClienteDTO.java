@@ -4,7 +4,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.validation.constraints.Min;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 import com.treinamentoMinsait.empresaFinanceira.entity.Cliente;
 
@@ -14,20 +17,30 @@ import lombok.Setter;
 @Getter @Setter
 public class ClienteDTO {
 	private Long id;
-	private String cpf;
-	private String nome;
-	private String telefone;
-	@Min(value=0) private BigDecimal rendimentoMensal;
-	private EnderecoDTO endereco;
+	@NotBlank private String cpf;
+	@NotBlank private String nome;
+	@NotBlank private String telefone;
+	@NotNull @Positive private BigDecimal rendimentoMensal;
+	@NotNull @Valid private EnderecoDTO endereco;
 	
 	public ClienteDTO() {
 		
 	}
 	
-	public static ClienteDTO transformaClienteEmDto(Cliente cliente) {
+	public static Cliente transformarDTOemCliente(ClienteDTO clienteDTO) {
+		Cliente clienteTransformado = new Cliente();
+		clienteTransformado.setCpf(clienteDTO.getCpf());
+		clienteTransformado.setNome(clienteDTO.getNome());
+		clienteTransformado.setTelefone(clienteDTO.getTelefone());
+		clienteTransformado.setRendimentoMensal(clienteDTO.getRendimentoMensal());
+		
+		return clienteTransformado;
+	}
+	
+	public static ClienteDTO transformarClienteEmDto(Cliente cliente) {
 		ClienteDTO clienteTransformado = new ClienteDTO();
 		clienteTransformado.id = cliente.getId();
-		clienteTransformado.cpf = cliente.getCPF();
+		clienteTransformado.cpf = cliente.getCpf();
 		clienteTransformado.nome = cliente.getNome();
 		clienteTransformado.telefone = cliente.getTelefone();
 		clienteTransformado.rendimentoMensal = cliente.getRendimentoMensal();
@@ -44,7 +57,7 @@ public class ClienteDTO {
 		List<ClienteDTO> clientesDTO = new ArrayList<>();
 		
 		for (Cliente cliente : clientes) {
-			ClienteDTO clienteDTO = transformaClienteEmDto(cliente);
+			ClienteDTO clienteDTO = transformarClienteEmDto(cliente);
 			clientesDTO.add(clienteDTO);
 		}
 		

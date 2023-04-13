@@ -11,9 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -24,13 +21,13 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter @Setter private Long id;
 	
-	@Getter @Setter @NotBlank private String CPF;
-	@Getter @Setter @NotBlank private String nome;
-	@Getter @Setter @NotBlank private String telefone;
-	@Getter @Setter @Min(value=0) @NotNull private BigDecimal rendimentoMensal;
+	@Getter @Setter private String cpf;
+	@Getter @Setter private String nome;
+	@Getter @Setter private String telefone;
+	@Getter @Setter private BigDecimal rendimentoMensal;
 	
 	@OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL)
-	@Getter @Setter @NotNull private Endereco endereco;
+	@Getter @Setter private Endereco endereco;
 	
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	@Getter private List<Emprestimo> emprestimos = new ArrayList<>();

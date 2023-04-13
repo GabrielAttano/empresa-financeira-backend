@@ -1,6 +1,7 @@
 package com.treinamentoMinsait.empresaFinanceira.excecoes;
 
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -52,5 +53,4 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<String> handleInvalidEmprestimoGetException(InvalidEmprestimoGetException e) {
 		return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 	}
-
 }

@@ -24,7 +24,7 @@ public class EmprestimoDTO {
 		
 	}
 	
-	public static EmprestimoDTO transformaEmprestimoEmEmprestimoDTO(Emprestimo emprestimo) {
+	public static EmprestimoDTO transformaEmprestimoEmDTO(Emprestimo emprestimo) {
 		EmprestimoDTO emprestimoTransformado = new EmprestimoDTO();
 		emprestimoTransformado.id = emprestimo.getId();
 		emprestimoTransformado.valorInicial = emprestimo.getValorInicial();
@@ -40,7 +40,7 @@ public class EmprestimoDTO {
 		List<EmprestimoDTO> emprestimosDTO = new ArrayList<>();
 		
 		for (Emprestimo emprestimo : emprestimos) {
-			EmprestimoDTO emprestimoDTO = transformaEmprestimoEmEmprestimoDTO(emprestimo);
+			EmprestimoDTO emprestimoDTO = transformaEmprestimoEmDTO(emprestimo);
 			emprestimosDTO.add(emprestimoDTO);
 		}
 		

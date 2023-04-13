@@ -29,33 +29,31 @@ public class ClienteService {
 	}
 	
 	
-	public Cliente cadastrarCliente(Cliente cliente) throws InvalidCPFException, InvalidTelefoneException, InvalidCEPException, CPFAlreadyExistsException {
+	public Cliente cadastrarCliente(ClienteDTO clienteDTO) throws InvalidCPFException, InvalidTelefoneException, InvalidCEPException, CPFAlreadyExistsException {
 		
-		String CPF = cliente.getCPF();
-		if (!this.cpfEhValido(CPF)) {
-			throw new InvalidCPFException(CPF);
+		String cpf = clienteDTO.getCpf();
+		if (!this.cpfEhValido(cpf)) {
+			throw new InvalidCPFException(cpf);
 		}
 		
-		if (this.clienteRepository.existsByCPF(CPF)) {
-			throw new CPFAlreadyExistsException(CPF);
+		if (this.clienteRepository.existsByCpf(cpf)) {
+			throw new CPFAlreadyExistsException(cpf);
 		}
 		
-		String telefone = cliente.getTelefone();
+		String telefone = clienteDTO.getTelefone();
 		if (!this.telefoneEhValido(telefone)) {
 			throw new InvalidTelefoneException(telefone);
 		}
 		
-		String cep = cliente.getEndereco().getCep();
+		String cep = clienteDTO.getEndereco().getCep();
 		if(!this.cepEhValido(cep)) {
 			throw new InvalidCEPException(cep);
 		}
 		
-		Endereco endereco = new Endereco();
-	    endereco.setRua(cliente.getEndereco().getRua());
-	    endereco.setNumero(cliente.getEndereco().getNumero());
-	    endereco.setCep(cliente.getEndereco().getCep());
+		Cliente cliente = ClienteDTO.transformarDTOemCliente(clienteDTO);
+		Endereco endereco = EnderecoDTO.transformarDTOemEndereco(clienteDTO.getEndereco());
+		
 	    endereco.setCliente(cliente);
-
 	    cliente.setEndereco(endereco);
 		
 		return this.clienteRepository.save(cliente);
@@ -68,20 +66,20 @@ public class ClienteService {
 	}
 	
 	public Cliente recuperarCliente(String cpf) throws ClienteNotFoundException {
-		Cliente cliente = this.clienteRepository.findByCPF(cpf)
+		Cliente cliente = this.clienteRepository.findByCpf(cpf)
 	            .orElseThrow(() -> new ClienteNotFoundException(cpf));
 
 	    return cliente;
 	}
 	
 	public void deletaCliente(String cpf) throws ClienteNotFoundException {
-		Cliente cliente = this.clienteRepository.findByCPF(cpf)
+		Cliente cliente = this.clienteRepository.findByCpf(cpf)
 				.orElseThrow(() -> new ClienteNotFoundException(cpf));
 		clienteRepository.delete(cliente);
 	}
 	
 	public Cliente alteraCliente(String cpf, ClienteDTO clienteDTO) throws ClienteNotFoundException, InvalidTelefoneException, InvalidCEPException {
-		Cliente cliente = this.clienteRepository.findByCPF(cpf)
+		Cliente cliente = this.clienteRepository.findByCpf(cpf)
 				.orElseThrow(() -> new ClienteNotFoundException(cpf));
 		
 		if (clienteDTO.getEndereco() != null) {

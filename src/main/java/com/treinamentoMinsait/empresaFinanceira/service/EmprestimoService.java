@@ -30,7 +30,7 @@ public class EmprestimoService {
 	}
 	
 	public Emprestimo cadastraEmprestimo(String cpf, BigDecimal valorInicial, Relacionamento relacionamento) throws ClienteNotFoundException, InvalidValorInicialException, InsufficientRendaMensalException {
-		Cliente cliente = this.clienteRepository.findByCPF(cpf)
+		Cliente cliente = this.clienteRepository.findByCpf(cpf)
 				.orElseThrow(() -> new ClienteNotFoundException(cpf));
 		
 		if (!this.valorInicialEhValido(valorInicial)) {
@@ -49,7 +49,7 @@ public class EmprestimoService {
 	}
 	
 	public Emprestimo recuperaEmprestimo(String cpf, Long id) throws ClienteNotFoundException, EmprestimoNotFoundException, InvalidEmprestimoGetException {
-		Cliente cliente = this.clienteRepository.findByCPF(cpf)
+		Cliente cliente = this.clienteRepository.findByCpf(cpf)
 				.orElseThrow(() -> new ClienteNotFoundException(cpf));
 		
 		Emprestimo emprestimo = this.emprestimoRepository.findById(id)
@@ -64,14 +64,14 @@ public class EmprestimoService {
 	}
 	
 	public List<Emprestimo> recuperaEmprestimos(String cpf) throws ClienteNotFoundException {
-		Cliente cliente = this.clienteRepository.findByCPF(cpf)
+		Cliente cliente = this.clienteRepository.findByCpf(cpf)
 				.orElseThrow(() -> new ClienteNotFoundException(cpf));
 		
 		return cliente.getEmprestimos();
 	}
 	
 	public void deletaEmprestimo(String cpf, Long id) throws ClienteNotFoundException, EmprestimoNotFoundException, InvalidEmprestimoGetException {
-		Cliente cliente = this.clienteRepository.findByCPF(cpf)
+		Cliente cliente = this.clienteRepository.findByCpf(cpf)
 				.orElseThrow(() -> new ClienteNotFoundException(cpf));
 		
 		Emprestimo emprestimo = this.emprestimoRepository.findById(id)
@@ -90,7 +90,7 @@ public class EmprestimoService {
 		Emprestimo novoEmprestimo = new Emprestimo();
 		
 		novoEmprestimo.setCliente(cliente);
-		novoEmprestimo.setCPFCliente(cliente.getCPF());
+		novoEmprestimo.setCPFCliente(cliente.getCpf());
 		
 		novoEmprestimo.setValorInicial(valorInicial);
 		novoEmprestimo.setRelacionamento(relacionamento);
