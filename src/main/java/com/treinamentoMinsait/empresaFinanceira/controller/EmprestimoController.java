@@ -38,7 +38,7 @@ public class EmprestimoController {
 		try {
 			Emprestimo novoEmprestimo;
 			novoEmprestimo = this.emprestimoService.cadastraEmprestimo(cpf, emprestimoRequest.getValorInicial(), emprestimoRequest.getRelacionamento());
-			return new ResponseEntity<>(new EmprestimoDTO(novoEmprestimo), HttpStatus.OK);
+			return new ResponseEntity<>(EmprestimoDTO.transformaEmprestimoEmEmprestimoDTO(novoEmprestimo), HttpStatus.OK);
 			
 		} catch (ClienteNotFoundException | InvalidValorInicialException | InsufficientRendaMensalException e) {
 			throw e;
@@ -50,7 +50,7 @@ public class EmprestimoController {
 		try {
 			List<Emprestimo> emprestimosRecuperados;
 			emprestimosRecuperados = this.emprestimoService.recuperaEmprestimos(cpf);
-			return this.emprestimoService.transformarEmprestimosEmDTO(emprestimosRecuperados);
+			return EmprestimoDTO.transformarEmprestimosEmDTO(emprestimosRecuperados);
 		} catch (ClienteNotFoundException e) {
 			throw e;
 		}
@@ -61,7 +61,7 @@ public class EmprestimoController {
 		try {
 			Emprestimo emprestimoRecuperado;
 			emprestimoRecuperado = this.emprestimoService.recuperaEmprestimo(cpf, id);
-			return new ResponseEntity<>(new EmprestimoDTO(emprestimoRecuperado), HttpStatus.OK);
+			return new ResponseEntity<>(EmprestimoDTO.transformaEmprestimoEmEmprestimoDTO(emprestimoRecuperado), HttpStatus.OK);
 		} catch (ClienteNotFoundException | EmprestimoNotFoundException | InvalidEmprestimoGetException e) {
 			throw e;
 		}
@@ -71,7 +71,7 @@ public class EmprestimoController {
 	public ResponseEntity<?> deletaEmprestimo(@PathVariable String cpf, @PathVariable Long id) throws ClienteNotFoundException, EmprestimoNotFoundException, InvalidEmprestimoGetException {
 		try {
 			this.emprestimoService.deletaEmprestimo(cpf, id);
-			return new ResponseEntity<>("Emprestimo deletado com sucesso", HttpStatus.OK);
+			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (ClienteNotFoundException | EmprestimoNotFoundException | InvalidEmprestimoGetException e) {
 			throw e;
 		}

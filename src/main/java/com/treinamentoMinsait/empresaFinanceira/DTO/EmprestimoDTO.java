@@ -2,6 +2,8 @@ package com.treinamentoMinsait.empresaFinanceira.DTO;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.treinamentoMinsait.empresaFinanceira.entity.Emprestimo;
 import com.treinamentoMinsait.empresaFinanceira.tipos.Relacionamento;
@@ -18,12 +20,30 @@ public class EmprestimoDTO {
 	private LocalDate dataFinal;
 	private Relacionamento relacionamento;
 	
-	public EmprestimoDTO(Emprestimo emprestimo) {
-		this.id = emprestimo.getId();
-		this.valorInicial = emprestimo.getValorInicial();
-		this.valorFinal = emprestimo.getValorFinal();
-		this.dataInicial = emprestimo.getDataInicial();
-		this.dataFinal = emprestimo.getDataFinal();
-		this.relacionamento = emprestimo.getRelacionamento();
+	public EmprestimoDTO() {
+		
+	}
+	
+	public static EmprestimoDTO transformaEmprestimoEmEmprestimoDTO(Emprestimo emprestimo) {
+		EmprestimoDTO emprestimoTransformado = new EmprestimoDTO();
+		emprestimoTransformado.id = emprestimo.getId();
+		emprestimoTransformado.valorInicial = emprestimo.getValorInicial();
+		emprestimoTransformado.valorFinal = emprestimo.getValorFinal();
+		emprestimoTransformado.dataInicial = emprestimo.getDataInicial();
+		emprestimoTransformado.dataFinal = emprestimo.getDataFinal();
+		emprestimoTransformado.relacionamento = emprestimo.getRelacionamento();
+		
+		return emprestimoTransformado;
+	}
+	
+	public static List<EmprestimoDTO> transformarEmprestimosEmDTO(List<Emprestimo> emprestimos) {
+		List<EmprestimoDTO> emprestimosDTO = new ArrayList<>();
+		
+		for (Emprestimo emprestimo : emprestimos) {
+			EmprestimoDTO emprestimoDTO = transformaEmprestimoEmEmprestimoDTO(emprestimo);
+			emprestimosDTO.add(emprestimoDTO);
+		}
+		
+		return emprestimosDTO;
 	}
 }

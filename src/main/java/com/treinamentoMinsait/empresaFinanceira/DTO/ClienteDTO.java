@@ -1,6 +1,8 @@
 package com.treinamentoMinsait.empresaFinanceira.DTO;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.constraints.Min;
 
@@ -22,16 +24,30 @@ public class ClienteDTO {
 		
 	}
 	
-	public ClienteDTO(Cliente cliente) {
-		this.id = cliente.getId();
-		this.cpf = cliente.getCPF();
-		this.nome = cliente.getNome();
-		this.telefone = cliente.getTelefone();
-		this.rendimentoMensal = cliente.getRendimentoMensal();
+	public static ClienteDTO transformaClienteEmDto(Cliente cliente) {
+		ClienteDTO clienteTransformado = new ClienteDTO();
+		clienteTransformado.id = cliente.getId();
+		clienteTransformado.cpf = cliente.getCPF();
+		clienteTransformado.nome = cliente.getNome();
+		clienteTransformado.telefone = cliente.getTelefone();
+		clienteTransformado.rendimentoMensal = cliente.getRendimentoMensal();
 		EnderecoDTO enderecoDTO = new EnderecoDTO();
 		enderecoDTO.setCep(cliente.getEndereco().getCep());
 		enderecoDTO.setNumero(cliente.getEndereco().getNumero());
 		enderecoDTO.setRua(cliente.getEndereco().getRua());
-		this.endereco = enderecoDTO;
+		clienteTransformado.endereco = enderecoDTO;
+		
+		return clienteTransformado;
+	}
+	
+	public static List<ClienteDTO> transformarClientesEmDTO(List<Cliente> clientes) {
+		List<ClienteDTO> clientesDTO = new ArrayList<>();
+		
+		for (Cliente cliente : clientes) {
+			ClienteDTO clienteDTO = transformaClienteEmDto(cliente);
+			clientesDTO.add(clienteDTO);
+		}
+		
+		return clientesDTO;
 	}
 }

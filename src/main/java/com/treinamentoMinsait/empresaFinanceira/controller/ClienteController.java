@@ -40,7 +40,7 @@ public class ClienteController {
 		try {
 			Cliente clienteCadastrado;
 			clienteCadastrado = clienteService.cadastrarCliente(cliente);
-			return new ResponseEntity<>(new ClienteDTO(clienteCadastrado), HttpStatus.OK);
+			return new ResponseEntity<>(ClienteDTO.transformaClienteEmDto(clienteCadastrado), HttpStatus.OK);
 		} catch (InvalidCPFException | CPFAlreadyExistsException | InvalidTelefoneException | InvalidCEPException e) { 
 			throw e;
 		} 
@@ -50,7 +50,7 @@ public class ClienteController {
 	public List<ClienteDTO> recuperarClientes() {
 		List<Cliente> clientesRecuperados;
 		clientesRecuperados = this.clienteService.recuperarClientes();
-		return this.clienteService.transformarClientesEmDTO(clientesRecuperados);
+		return ClienteDTO.transformarClientesEmDTO(clientesRecuperados);
 	}
 	
 	@GetMapping("/{cpf}")
@@ -58,7 +58,7 @@ public class ClienteController {
 		try {
 			Cliente clienteRecuperado;
 			clienteRecuperado = this.clienteService.recuperarCliente(cpf);
-			return new ResponseEntity<>(new ClienteDTO(clienteRecuperado), HttpStatus.OK);
+			return new ResponseEntity<>(ClienteDTO.transformaClienteEmDto(clienteRecuperado), HttpStatus.OK);
 		} catch (ClienteNotFoundException e) {
 			throw e;
 		}
@@ -80,7 +80,7 @@ public class ClienteController {
 		try {
 			Cliente clienteAlterado;
 			clienteAlterado = this.clienteService.alteraCliente(cpf, clienteDTO);
-			return new ResponseEntity<>(new ClienteDTO(clienteAlterado), HttpStatus.OK);
+			return new ResponseEntity<>(ClienteDTO.transformaClienteEmDto(clienteAlterado), HttpStatus.OK);
 		} catch (InvalidTelefoneException | InvalidCEPException | ClienteNotFoundException e) { 
 			throw e;
 		} 

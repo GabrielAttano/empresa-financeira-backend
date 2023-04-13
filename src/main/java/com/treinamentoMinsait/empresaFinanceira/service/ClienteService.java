@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -73,17 +72,6 @@ public class ClienteService {
 	            .orElseThrow(() -> new ClienteNotFoundException(cpf));
 
 	    return cliente;
-	}
-	
-	public List<ClienteDTO> transformarClientesEmDTO(List<Cliente> clientes) {
-		List<ClienteDTO> clientesDTO = new ArrayList<>();
-		
-		for (Cliente cliente : clientes) {
-			ClienteDTO clienteDTO = new ClienteDTO(cliente);
-			clientesDTO.add(clienteDTO);
-		}
-		
-		return clientesDTO;
 	}
 	
 	public void deletaCliente(String cpf) throws ClienteNotFoundException {

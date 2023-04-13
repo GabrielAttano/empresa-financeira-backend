@@ -2,13 +2,11 @@ package com.treinamentoMinsait.empresaFinanceira.service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.treinamentoMinsait.empresaFinanceira.DTO.EmprestimoDTO;
 import com.treinamentoMinsait.empresaFinanceira.entity.Cliente;
 import com.treinamentoMinsait.empresaFinanceira.entity.Emprestimo;
 import com.treinamentoMinsait.empresaFinanceira.excecoes.ClienteNotFoundException;
@@ -87,18 +85,7 @@ public class EmprestimoService {
 		emprestimosCliente.remove(emprestimo);
 		this.emprestimoRepository.delete(emprestimo);
 	}
-	
-	public List<EmprestimoDTO> transformarEmprestimosEmDTO(List<Emprestimo> emprestimos) {
-		List<EmprestimoDTO> emprestimosDTO = new ArrayList<>();
-		
-		for (Emprestimo emprestimo : emprestimos) {
-			EmprestimoDTO emprestimoDTO = new EmprestimoDTO(emprestimo);
-			emprestimosDTO.add(emprestimoDTO);
-		}
-		
-		return emprestimosDTO;
-	}
-	
+
 	private Emprestimo criaEmprestimo(Cliente cliente, BigDecimal valorInicial, Relacionamento relacionamento) {
 		Emprestimo novoEmprestimo = new Emprestimo();
 		
