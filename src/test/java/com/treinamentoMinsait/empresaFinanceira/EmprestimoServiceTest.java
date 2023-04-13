@@ -75,6 +75,7 @@ public class EmprestimoServiceTest {
 		Cliente clienteMock = this.clienteServiceTest.gerarClienteMock();
 		String cpfCliente = clienteMock.getCPF();
 		BigDecimal rendaMensalCliente = clienteMock.getRendimentoMensal();
+		
 		BigDecimal valorInicialInvalido = rendaMensalCliente.multiply(new BigDecimal("10.00")).add(new BigDecimal("1.00"));
 		
 		when(this.clienteRepositoryMock.findByCPF(cpfCliente)).thenReturn(Optional.of(clienteMock));		
@@ -83,6 +84,72 @@ public class EmprestimoServiceTest {
 		});
 		
 		assertInstanceOf(InsufficientRendaMensalException.class, exception);
+	}
+	
+	@Test
+	public void criarEmprestimoBronzeValido() {
+		Cliente clienteMock = this.clienteServiceTest.gerarClienteMock();
+		String cpfCliente = clienteMock.getCPF();
+		int totalEmprestimosCliente = clienteMock.getEmprestimos().size();
+		
+		BigDecimal valorInicial = new BigDecimal("10.00");
+		BigDecimal valorFinalEsperado = Relacionamento.Bronze.calculaValorFinal(valorInicial, totalEmprestimosCliente);
+		
+		when(this.clienteRepositoryMock.findByCPF(cpfCliente)).thenReturn(Optional.of(clienteMock));
+		try {
+			Emprestimo emprestimoSalvo = this.emprestimoService.cadastraEmprestimo(cpfCliente, valorInicial, Relacionamento.Bronze);
+			assertEquals(valorInicial, emprestimoSalvo.getValorInicial());
+			assertEquals(valorFinalEsperado, emprestimoSalvo.getValorFinal());
+		} catch (Exception e) {
+			fail(String.format("Não deveria ter lançado a exceção '%s'", e.getMessage()));
+		}
+	}
+	
+	@Test
+	public void criarEmprestimoPrataValido() {
+		Cliente clienteMock = this.clienteServiceTest.gerarClienteMock();
+		String cpfCliente = clienteMock.getCPF();
+		int totalEmprestimosCliente = clienteMock.getEmprestimos().size();
+		
+		BigDecimal valorInicial = new BigDecimal("10.00");
+		BigDecimal valorFinalValido = Relacionamento.Prata.calculaValorFinal(valorInicial, totalEmprestimosCliente);
+		
+		when(this.clienteRepositoryMock.findByCPF(cpfCliente)).thenReturn(Optional.of(clienteMock));
+		try {
+			Emprestimo emprestimoSalvo = this.emprestimoService.cadastraEmprestimo(cpfCliente, valorInicial, Relacionamento.Prata);
+			assertEquals(valorInicial, emprestimoSalvo.getValorInicial());
+			assertEquals(valorFinalValido, emprestimoSalvo.getValorFinal());
+		} catch (Exception e) {
+			fail(String.format("Não deveria ter lançado a exceção '%s'", e.getMessage()));
+		}
+	}
+	
+	@Test
+	public void criarEmprestimoOuroValido() {
+		Cliente clienteMock = this.clienteServiceTest.gerarClienteMock();
+		String cpfCliente = clienteMock.getCPF();
+		
+		BigDecimal valorInicial = new BigDecimal("10.00");
+		BigDecimal valorFinalPrimeiroEmprestimo = Relacionamento.Ouro.calculaValorFinal(valorInicial, 0);
+		BigDecimal valorFinalSegundoEmprestimo = Relacionamento.Ouro.calculaValorFinal(valorInicial, 1);
+		BigDecimal valorFinalTerceiroEmprestimo = Relacionamento.Ouro.calculaValorFinal(valorInicial, 2);
+		
+		when(this.clienteRepositoryMock.findByCPF(cpfCliente)).thenReturn(Optional.of(clienteMock));
+		try {
+			Emprestimo primeiroEmprestimo = this.emprestimoService.cadastraEmprestimo(cpfCliente, valorInicial, Relacionamento.Ouro);
+			Emprestimo segundoEmprestimo = this.emprestimoService.cadastraEmprestimo(cpfCliente, valorInicial, Relacionamento.Ouro);
+			Emprestimo terceiroEmprestimo = this.emprestimoService.cadastraEmprestimo(cpfCliente, valorInicial, Relacionamento.Ouro);
+			
+			assertEquals(valorInicial, primeiroEmprestimo.getValorInicial());
+			assertEquals(valorInicial, segundoEmprestimo.getValorInicial());
+			assertEquals(valorInicial, terceiroEmprestimo.getValorInicial());
+			
+			assertEquals(valorFinalPrimeiroEmprestimo, primeiroEmprestimo.getValorFinal());
+			assertEquals(valorFinalSegundoEmprestimo, segundoEmprestimo.getValorFinal());
+			assertEquals(valorFinalTerceiroEmprestimo, terceiroEmprestimo.getValorFinal());
+		} catch (Exception e) {
+			fail(String.format("Não deveria ter lançado a exceção '%s'", e.getMessage()));
+		}
 	}
 	
 	@Test
@@ -102,8 +169,6 @@ public class EmprestimoServiceTest {
 			assertEquals(valorInicialValido, emprestimoSalvo.getValorInicial());
 			assertEquals(valorFinalValido, emprestimoSalvo.getValorFinal());
 			assertEquals(this.relacionamentoValido, emprestimoSalvo.getRelacionamento());
-			
-			
 		} catch (Exception e) {
 			fail(String.format("Não deveria ter lançado a exceção '%s'", e.getMessage()));
 		}
