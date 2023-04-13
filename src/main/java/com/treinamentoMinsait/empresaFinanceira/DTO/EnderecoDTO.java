@@ -20,7 +20,7 @@ public class EnderecoDTO {
 	
 	public static Endereco transformarDTOemEndereco(EnderecoDTO enderecoDTO) {
 		Endereco enderecoTransformado = new Endereco();
-		enderecoTransformado.setRua(enderecoDTO.getRua());
+		enderecoTransformado.setRua(enderecoDTO.getRua().trim());
 		enderecoTransformado.setNumero(enderecoDTO.getNumero());
 		enderecoTransformado.setCep(enderecoDTO.getCep());
 		

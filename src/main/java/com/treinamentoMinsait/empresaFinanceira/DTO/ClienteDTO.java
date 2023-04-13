@@ -30,7 +30,7 @@ public class ClienteDTO {
 	public static Cliente transformarDTOemCliente(ClienteDTO clienteDTO) {
 		Cliente clienteTransformado = new Cliente();
 		clienteTransformado.setCpf(clienteDTO.getCpf());
-		clienteTransformado.setNome(clienteDTO.getNome());
+		clienteTransformado.setNome(clienteDTO.getNome().trim());
 		clienteTransformado.setTelefone(clienteDTO.getTelefone());
 		clienteTransformado.setRendimentoMensal(clienteDTO.getRendimentoMensal());
 		

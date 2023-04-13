@@ -89,8 +89,8 @@ public class ClienteService {
 		}
 		
 		if (clienteDTO.getNome() != null) {
-			String novoNome = clienteDTO.getNome();
-			if (novoNome != "") {				
+			String novoNome = clienteDTO.getNome().trim();
+			if (!novoNome.isEmpty()) {				
 				cliente.setNome(novoNome);
 			}
 		}
@@ -129,9 +129,9 @@ public class ClienteService {
 			cliente.getEndereco().setNumero(novoNumero);				
 		}
 		
-		String novaRua = novoEndereco.getRua();
+		String novaRua = novoEndereco.getRua().trim();
 		if (novaRua != null) {
-			if (novaRua != "") {
+			if (!novaRua.isEmpty()) {
 				cliente.getEndereco().setRua(novaRua);				
 			}
 		}
